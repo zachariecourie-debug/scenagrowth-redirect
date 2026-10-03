@@ -1,2 +1,4 @@
+# Redirect bare domains to their www version (permanent), keeping the path.
 RewriteEngine On
-RewriteRule ^ https://www.scenagrowth.fr%{REQUEST_URI} [R=301,L]
+RewriteCond %{HTTP_HOST} ^(?:www\.)?(scenagrowth\.fr|carrosserielb\.fr)$ [NC]
+RewriteRule ^ https://www.%1%{REQUEST_URI} [R=301,L]
