@@ -1,6 +1,7 @@
 # SCENA Growth — Apache configuration for the OVH web hosting.
 # Recreates what Genspark did server-side: canonical host, HTTPS, clean URLs,
-# WhatsApp redirect, contact form endpoint, 404 page and security headers.
+# contact form endpoint, 404 page and security headers. /wa is a static page
+# (wa/index.html) that opens WhatsApp with an EN or FR message.
 
 Options -Indexes -MultiViews
 DirectorySlash Off
@@ -20,9 +21,6 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 # Never serve repository or internal files.
 RewriteRule (^|/)\.git(/|$) - [R=404,L]
 RewriteRule ^README\.md$ - [R=404,L]
-
-# WhatsApp CTA: the number stays out of the pages (same message as on Genspark).
-RewriteRule ^wa/?$ https://wa.me/33651366670?text=Hello\%2C\%20thanks!\%20I\%E2\%80\%99d\%20like\%20to\%20talk\%20about\%20growing\%20between\%20France\%20and\%20the\%20UAE. [R=302,NE,L]
 
 # Contact form endpoint.
 RewriteRule ^api/contact/?$ api/contact.php [L]

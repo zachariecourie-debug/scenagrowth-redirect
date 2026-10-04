@@ -17,7 +17,7 @@
   if (curtain) {
     const liftCurtain = () => { curtain.classList.add('up'); setTimeout(() => curtain.classList.add('gone'), 1200); };
     if (RM || sessionStorage.getItem('scena-intro')) { curtain.classList.add('gone'); }
-    else { sessionStorage.setItem('scena-intro', '1'); addEventListener('load', () => setTimeout(liftCurtain, 900)); setTimeout(liftCurtain, 2600); }
+    else { sessionStorage.setItem('scena-intro', '1'); const touch = !matchMedia('(pointer:fine)').matches; addEventListener('load', () => setTimeout(liftCurtain, touch ? 250 : 900)); setTimeout(liftCurtain, touch ? 1400 : 2600); }
   }
 
   /* ---------- nav / menu ---------- */
@@ -64,6 +64,13 @@
       runWipe(() => { location.href = href; });
     }
   }));
+  // warm the next page as soon as a finger lands on an internal link
+  const prefetched = new Set();
+  addEventListener('touchstart', e => {
+    const a = e.target.closest && e.target.closest('a[href^="/"]'); if (!a || a.target) return;
+    const href = a.getAttribute('href').split('#')[0]; if (!href || prefetched.has(href) || href === location.pathname) return;
+    prefetched.add(href); const l = document.createElement('link'); l.rel = 'prefetch'; l.href = href; document.head.appendChild(l);
+  }, { passive: true });
 
   /* ---------- cursor ---------- */
   const cur = $('#cursor'), curLab = $('#cursorLabel');
@@ -101,7 +108,6 @@
       return true;
     });
   };
-  addEventListener('scroll', revealFallback, { passive: true });
   addEventListener('load', revealFallback);
   setTimeout(revealFallback, 50);
 
@@ -121,7 +127,7 @@
     setRot(0);
   }
   if (hero && heroStage) {
-    hero.addEventListener('pointermove', e => { splitT = 50 + ((e.clientX / innerWidth) - .5) * 26; });
+    hero.addEventListener('pointermove', e => { if (e.pointerType === 'mouse') splitT = 50 + ((e.clientX / innerWidth) - .5) * 26; });
     hero.addEventListener('pointerleave', () => { splitT = 50; });
   }
 
@@ -183,21 +189,43 @@
     sec, track: $('.hs-track', sec), bars: $$('.hs-progress span', sec),
     frames: $$('.frame, .m-panel', sec), dist: 0
   }));
-  const layoutHS = () => hsList.forEach(o => {
-    if (isMobile()) { o.sec.style.height = ''; o.track.style.transform = ''; return; }
-    o.dist = Math.max(0, o.track.scrollWidth - innerWidth);
-    o.sec.style.height = (o.dist + innerHeight) + 'px';
-  });
+  // phones: pin (scroll-driven, like desktop) only when every panel fits the small viewport height,
+  // otherwise keep the native swipe. Decided per width so the URL bar showing/hiding never flips it.
+  const svhProbe = document.createElement('div');
+  svhProbe.style.cssText = 'position:absolute;top:0;left:-9999px;width:1px;height:100vh;height:100svh;pointer-events:none;visibility:hidden';
+  document.body.appendChild(svhProbe);
+  let hsW = -1;
+  const layoutHS = () => {
+    const mob = isMobile();
+    if (innerWidth !== hsW) {
+      hsW = innerWidth;
+      const navH = nav ? nav.offsetHeight : 68, svh = svhProbe.offsetHeight;
+      hsList.forEach(o => {
+        o.sec.classList.remove('pin-m'); o.sec.style.height = ''; o.track.style.transform = '';
+        if (!mob) { o.pin = true; return; }
+        const head = $('.m-label', o.sec); const headH = head ? head.offsetHeight : 0;
+        const tallest = Math.max(0, ...$$('.hs-track > *', o.sec).map(el => el.offsetHeight));
+        o.pin = tallest + headH + navH + 8 <= svh;
+        o.sec.classList.toggle('pin-m', o.pin);
+      });
+    }
+    hsList.forEach(o => {
+      if (!o.pin) { o.sec.style.height = ''; o.track.style.transform = ''; return; }
+      o.dist = Math.max(0, o.track.scrollWidth - innerWidth);
+      o.sec.style.height = (o.dist + (mob ? svhProbe.offsetHeight : innerHeight)) + 'px';
+    });
+  };
   const method = $('#method'), mCount = $('#mCount');
 
   /* ---------- journeys ---------- */
   const jA = $('#jA'), jB = $('#jB'), dossier = $('#dossier'), dosN = $('#dosN'), dosT = $('#dosT');
   const ringsI = $$('#rings i'), rtags = $$('#rings .rtag');
   const jState = el => {
-    const st = $$('.j-step', el); const line = innerHeight * .62; let n = 0;
-    st.forEach(s => { const on = s.getBoundingClientRect().top < line; s.classList.toggle('on', on); if (on) n++; });
-    const r = el.getBoundingClientRect(); const p = clamp((line - r.top) / r.height);
-    el.style.setProperty('--jp', p.toFixed(3));
+    const st = el._st || (el._st = $$('.j-step', el)); const line = innerHeight * (isMobile() ? .8 : .62);
+    const ons = st.map(s => s.getBoundingClientRect().top < line);
+    const r = el.getBoundingClientRect(); const p = clamp((line - r.top) / r.height).toFixed(3);
+    let n = 0; ons.forEach((on, i) => { if (on) n++; if (st[i]._on !== on) { st[i]._on = on; st[i].classList.toggle('on', on); } });
+    if (el._jp !== p) { el._jp = p; el.style.setProperty('--jp', p); }
     return { n, st };
   };
   let lastA = -1, lastB = -1;
@@ -277,6 +305,13 @@
     li.addEventListener('pointerleave', () => { ff.classList.remove('show'); fOn = false; });
   });
 
+  // touch screens: no cursor to follow, so the row in the middle of the screen lights up and reveals its image
+  const fmtRows = !fine ? $$('#formats li[data-img]') : [];
+  fmtRows.forEach(li => { const a = $('a', li); if (!a || $('.thumb', li)) return;
+    const t = document.createElement('span'); t.className = 'thumb ph t-mono';
+    t.innerHTML = `<img src="${li.dataset.img}" alt="" loading="lazy" decoding="async">`; a.appendChild(t); });
+  let fmtAct = null;
+
   /* ---------- insights filter ---------- */
   const chips = $$('#filters .chip'), arts = $$('#mag .art'), magEmpty = $('#magEmpty');
   chips.forEach(c => c.addEventListener('click', () => {
@@ -316,6 +351,41 @@
     $('#dots').innerHTML = dots;
     $$('.gcard').forEach(c => c.addEventListener('pointerenter', () => route.style.strokeWidth = 3));
     $$('.gcard').forEach(c => c.addEventListener('pointerleave', () => route.style.strokeWidth = ''));
+
+    // phones: tap a card to light it up with the route (the desktop hover state)
+    const gcards = $$('.gcard');
+    gcards.forEach(c => c.addEventListener('click', () => {
+      if (fine) return;
+      const on = !c.classList.contains('hl');
+      gcards.forEach(o => o.classList.remove('hl'));
+      c.classList.toggle('hl', on); svg.classList.toggle('hl', on);
+    }));
+
+    // phones: zoom the map on the route, enlarge labels and print distance + flight time on it
+    const stats = $$('.geo-stats b');
+    const mid = route.getPointAtLength(len / 2);
+    const dist = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    dist.setAttribute('class', 'geo-dist');
+    dist.innerHTML = `<text x="${(mid.x - 220).toFixed(0)}" y="${(mid.y + 230).toFixed(0)}" text-anchor="middle">${stats[2] ? stats[2].textContent : ''}</text>` +
+      `<text class="sub" x="${(mid.x - 220).toFixed(0)}" y="${(mid.y + 280).toFixed(0)}" text-anchor="middle">${FRJS ? 'Vol direct' : 'Direct flight'} ${stats[3] ? stats[3].textContent : ''}</text>`;
+    svg.appendChild(dist);
+    const labels = $$('.city text', svg), trav = $('#traveller', svg);
+    const orig = labels.map(t => [t.getAttribute('x'), t.getAttribute('y'), t.getAttribute('font-size'), t.getAttribute('text-anchor')]);
+    const geoLayout = () => {
+      const m = isMobile();
+      svg.setAttribute('viewBox', m ? '250 30 1260 860' : '0 0 1600 900');
+      labels.forEach((t, i) => {
+        const [x, y, fs, ta] = orig[i];
+        if (!m) { t.setAttribute('x', x); t.setAttribute('y', y); t.setAttribute('font-size', fs); ta ? t.setAttribute('text-anchor', ta) : t.removeAttribute('text-anchor'); return; }
+        const big = i < 2; t.setAttribute('font-size', big ? 40 : 30);
+        if (i === 0) { t.setAttribute('x', +x + 10); t.setAttribute('y', +y - 16); }
+        if (i === 1) { t.setAttribute('x', +x - 40); t.setAttribute('y', +y - 34); t.setAttribute('text-anchor', 'end'); }
+        if (i === 2) { t.setAttribute('x', +x + 118 - 24); t.setAttribute('y', +y + 50); t.setAttribute('text-anchor', 'end'); }
+      });
+      if (trav) trav.setAttribute('r', m ? 12 : 5);
+      $$('.city circle', svg).forEach(c => c.setAttribute('r', m ? (c.classList.contains('p') ? 14 : 11) : (c.closest('.city') === cities[2] ? 4 : 6)));
+    };
+    geoLayout(); addEventListener('resize', geoLayout);
   }
   /* live clocks (map + sub-pages) */
   const tP = $('#tParis'), tD = $('#tDubai');
@@ -375,83 +445,121 @@
     if (seen) wa.classList.add('seen');
     // bubble appears after a short delay; window auto-opens once per session after 14s of browsing
     setTimeout(() => wa.classList.add('ready'), 1800);
-    if (!seen && !RM) setTimeout(() => { if (!document.body.classList.contains('menu-open')) setWa(true); }, 14000);
+    if (!seen && !RM && !isMobile()) setTimeout(() => { if (!document.body.classList.contains('menu-open')) setWa(true); }, 14000);
     // Every WhatsApp CTA goes through /wa (server redirect) — the number is never in the page.
     $$('[data-wa]').forEach(a => a.addEventListener('click', () => setWa(false)));
   }
 
-  /* ---------- main loop ---------- */
+  /* ---------- pause decorative animations while off screen ---------- */
+  if ('IntersectionObserver' in window) {
+    const offIO = new IntersectionObserver(es => es.forEach(e => {
+      const off = !e.isIntersecting;
+      e.target.classList.toggle('offscreen', off);
+      $$('svg', e.target).forEach(sv => { if (sv.pauseAnimations) off ? sv.pauseAnimations() : sv.unpauseAnimations(); });
+    }), { rootMargin: '200px 0px' });
+    $$('main section, main > article > section').forEach(sec => offIO.observe(sec));
+  }
+
+  /* ---------- main loop ----------
+     Runs only while something moves (scroll, resize, pointer, playback or an easing still settling),
+     reads layout first and writes after, and skips writes whose value did not change. */
   const prog = $('#progress'), contactSec = $('#contact');
-  let vh = innerHeight;
-  const onResize = () => { vh = innerHeight; layoutHS(); measureRot(); };
+  let vh = innerHeight, docH = document.documentElement.scrollHeight;
+  let running = false, busy = 0, lastY = -1, lastW = -1, mobileDone = false;
+  const set = (el, k, v) => { if (el['_' + k] !== v) { el['_' + k] = v; el.style[k] = v; } };
+  const setVar = (el, k, v) => { if (el['_' + k] !== v) { el['_' + k] = v; el.style.setProperty(k, v); } };
+  const wake = () => { busy = 90; if (!running) { running = true; requestAnimationFrame(frame); } };
+  const onResize = () => { vh = innerHeight; docH = document.documentElement.scrollHeight; hsList.forEach(o => { o.track._transform = undefined; o._tx = undefined; }); layoutHS(); measureRot(); mobileDone = false; wake(); };
   addEventListener('resize', onResize); onResize();
   addEventListener('load', onResize);
+  if ('ResizeObserver' in window) new ResizeObserver(() => { docH = document.documentElement.scrollHeight; wake(); }).observe(document.body);
+  ['scroll', 'pointermove', 'pointerdown', 'click', 'keydown', 'touchstart'].forEach(t => addEventListener(t, wake, { passive: true }));
 
-  const frame = () => {
-    const y = scrollY, H = Math.max(1, document.documentElement.scrollHeight - vh);
-    if (prog) prog.style.transform = `scaleX(${clamp(y / H)})`;
-    revealFallback();
-    nav && nav.classList.toggle('compact', y > 40);
-    if (mcta) {
-      const el = document.elementFromPoint(innerWidth / 2, vh - 40);
-      mcta.classList.toggle('show', y > vh * .9 && !(contactSec && el && contactSec.contains(el)));
+  function frame() {
+    const y = scrollY, scrolled = y !== lastY || innerWidth !== lastW; lastY = y; lastW = innerWidth;
+    const mob = isMobile();
+
+    /* ---- read phase ---- */
+    if (scrolled) revealFallback();
+    let inContact = false;
+    if (mcta && scrolled && contactSec) { const cr = contactSec.getBoundingClientRect(); inContact = cr.top < vh - 40 && cr.bottom > vh - 40; }
+    let hr = null, heroH = 0;
+    if (hero && heroStage) { hr = hero.getBoundingClientRect(); heroH = hero.offsetHeight; }
+    let mr = null;
+    if (mom && !RM && scrolled) mr = mom.getBoundingClientRect();
+    const hubW = hub && sides.length && !mob ? sides[0].offsetWidth + 'px' : null;
+    let fmtNext = fmtAct;
+    if (fmtRows.length && scrolled) {
+      let best = null, bd = 1e9;
+      fmtRows.forEach(li => { const r = li.getBoundingClientRect(); const d = Math.abs(r.top + r.height / 2 - vh * .5); if (r.bottom > 0 && r.top < vh && d < bd) { bd = d; best = li; } });
+      fmtNext = bd < vh * .3 ? best : null;
     }
+    const hsRects = scrolled ? hsList.map(o => {
+      if (!o.pin) return null;
+      const r = o.sec.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return null;
+      return { r, fr: o.frames.map(f => f.getBoundingClientRect()) };
+    }) : null;
+
+    /* ---- write phase ---- */
+    if (prog && scrolled) set(prog, 'transform', `scaleX(${clamp(y / Math.max(1, docH - vh)).toFixed(4)})`);
+    if (nav && scrolled) nav.classList.toggle('compact', y > 40);
+    const inPin = hsRects && hsRects.some(m => m && m.r.top <= 1 && m.r.bottom >= vh - 1);
+    if (mcta && scrolled) mcta.classList.toggle('show', y > vh * .9 && !inContact && !inPin);
 
     // cursor + float image
     cx = lerp(cx, mx, .2); cy = lerp(cy, my, .2);
-    if (fine && cur) cur.style.transform = `translate(${cx}px,${cy}px)`;
+    if (fine && cur) set(cur, 'transform', `translate(${cx.toFixed(1)}px,${cy.toFixed(1)}px)`);
     if (ff) {
       if (fOn) { fx = lerp(fx, mx, .12); fy = lerp(fy, my, .12); ff.style.transform = `translate(${fx - 140}px,${fy - 105}px) rotate(${(mx - fx) * .04}deg)`; }
       else { fx = mx; fy = my; }
     }
 
     // hero
-    if (hero && heroStage) {
-      const hr = hero.getBoundingClientRect();
-      if (hr.bottom > 0) {
-        const p = clamp(-hr.top / (hero.offsetHeight - vh));
-        setRot(Math.min(3, Math.floor(p * 4.001)));
-        split = lerp(split, splitT, .06);
-        const merge = RM ? 0 : p;
-        const s = lerp(split, 8, clamp((merge - .45) / .5));
-        heroStage.style.setProperty('--split', s.toFixed(2) + '%');
-        heroAe.style.opacity = (1 - clamp((merge - .75) / .25) * .45).toFixed(3);
-        if (!RM) {
-          heroFr.style.transform = `translate3d(${(split - 50) * -.3}px,${p * -40}px,0) scale(${1.02 + p * .08})`;
-          $('img', heroAe).style.transform = `translate3d(${(split - 50) * .4}px,${p * 30}px,0) scale(${1.04 + p * .05})`;
-        }
+    if (hr && hr.bottom > 0) {
+      const p = clamp(-hr.top / (heroH - vh));
+      setRot(Math.min(3, Math.floor(p * 4.001)));
+      split = lerp(split, splitT, .06);
+      const merge = RM ? 0 : p;
+      const s = lerp(split, 8, clamp((merge - .45) / .5));
+      setVar(heroStage, '--split', s.toFixed(2) + '%');
+      set(heroAe, 'opacity', (1 - clamp((merge - .75) / .25) * .45).toFixed(3));
+      if (!RM) {
+        set(heroFr, 'transform', `translate3d(${((split - 50) * -.3).toFixed(2)}px,${(p * -40).toFixed(2)}px,0) scale(${(1.02 + p * .08).toFixed(4)})`);
+        const ai = heroAe._img || (heroAe._img = $('img', heroAe));
+        set(ai, 'transform', `translate3d(${((split - 50) * .4).toFixed(2)}px,${(p * 30).toFixed(2)}px,0) scale(${(1.04 + p * .05).toFixed(4)})`);
       }
     }
 
     // keywords
-    if (mom && !RM && !isMobile()) {
-      const mr = mom.getBoundingClientRect();
-      if (mr.bottom > 0 && mr.top < vh) { const d = mr.top - vh / 2; kws.forEach(k => k.style.transform = `translate3d(0,${d * k.dataset.speed}px,0)`); }
-    }
+    if (mr && mr.bottom > 0 && mr.top < vh) { const d = mr.top - vh / 2; kws.forEach(k => set(k, 'transform', `translate3d(0,${(d * k.dataset.speed).toFixed(1)}px,0)`)); }
+
+    if (fmtNext !== fmtAct) { fmtAct && fmtAct.classList.remove('act'); fmtNext && fmtNext.classList.add('act'); fmtAct = fmtNext; }
 
     // bridge hub position
-    if (hub && sides.length && !isMobile()) hub.style.setProperty('--hub', sides[0].offsetWidth + 'px');
+    if (hubW) setVar(hub, '--hub', hubW);
 
     // horizontal
-    if (!isMobile()) hsList.forEach(o => {
-      const r = o.sec.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) return;
-      const p = clamp(-r.top / o.dist || 0);
-      o.track.style.transform = `translate3d(${-p * o.dist}px,0,0)`;
+    if (hsRects) hsList.forEach((o, k) => {
+      const m = hsRects[k]; if (!m) return;
+      const p = clamp(-m.r.top / o.dist || 0);
+      set(o.track, 'transform', `translate3d(${(-p * o.dist).toFixed(1)}px,0,0)`);
       const n = o.bars.length;
-      o.bars.forEach((b, i) => { const f = clamp(p * n - i); b.style.setProperty('--f', f.toFixed(3)); b.classList.toggle('on', p * n >= i && p * n < i + 1 || (i === n - 1 && p >= 1)); });
+      o.bars.forEach((b, i) => { const f = clamp(p * n - i); setVar(b, '--f', f.toFixed(3)); b.classList.toggle('on', p * n >= i && p * n < i + 1 || (i === n - 1 && p >= 1)); });
+      // frame rects were read before the track moved this frame; shift them by the same delta
+      const shift = (-p * o.dist) - (o._tx || 0); o._tx = -p * o.dist;
       let act = 0;
-      o.frames.forEach((f, i) => { const fr = f.getBoundingClientRect(); const c = fr.left + fr.width / 2; const on = c > innerWidth * .1 && c < innerWidth * .9; f.classList.toggle('act', on); if (fr.left < innerWidth * .5) act = i; });
+      o.frames.forEach((f, i) => { const fr = m.fr[i]; const left = fr.left + shift; const c = left + fr.width / 2; const on = c > innerWidth * .1 && c < innerWidth * .9; f.classList.toggle('act', on); if (left < innerWidth * .5) act = i; });
       if (method && o.sec === method) { method.dataset.env = act + 1; mCount && (mCount.textContent = `0${act + 1} / 05`); }
     });
-    else hsList.forEach(o => o.frames.forEach(f => f.classList.add('act')));
+    if (!mobileDone) { hsList.forEach(o => { if (!o.pin) o.frames.forEach(f => f.classList.add('act')); }); mobileDone = true; }
 
-    // journeys
-    if (jA) {
+    // journeys (jState reads all its rects before writing)
+    if (scrolled && jA) {
       const a = jState(jA); const ia = Math.max(0, a.n - 1);
       if (ia !== lastA) { lastA = ia; if (dossier) { dossier.dataset.s = ia; dosN.textContent = String(ia + 1).padStart(2, '0'); dosT.textContent = $('h3', a.st[ia]).textContent; } }
     }
-    if (jB) {
+    if (scrolled && jB) {
       const b = jState(jB); const ib = Math.max(0, b.n - 1);
       if (ib !== lastB) {
         lastB = ib; const lvl = Math.floor(ib / 2);
@@ -466,7 +574,9 @@
     plLast = now;
     if (player && player.classList.contains('open')) { plFill.style.width = (plT / plD * 100) + '%'; plCur.textContent = fmtT(plT); }
 
-    requestAnimationFrame(frame);
-  };
-  requestAnimationFrame(frame);
+    // keep running while something moves; otherwise sleep until the next event
+    if (scrolled || playing || fOn) busy = Math.max(busy, 30);
+    if (--busy > 0) requestAnimationFrame(frame); else running = false;
+  }
+  wake();
 })();

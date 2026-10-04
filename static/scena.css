@@ -828,11 +828,11 @@ form.cf.sent{opacity:0;transform:translateY(-20px);pointer-events:none}
   .svc-row .t{color:var(--ivory);-webkit-text-stroke:0;opacity:.55}
   .svc-row.on .t{opacity:1}
   /* horizontal sections → native swipe */
-  .hs{height:auto !important}
-  .hs-sticky{position:relative;height:auto;overflow:visible}
-  .hs-track{overflow-x:auto;scroll-snap-type:x mandatory;transform:none !important;height:auto;scrollbar-width:none;padding-bottom:24px}
+  .hs:not(.pin-m){height:auto !important}
+  .hs:not(.pin-m) .hs-sticky{position:relative;height:auto;overflow:visible}
+  .hs:not(.pin-m) .hs-track{overflow-x:auto;scroll-snap-type:x mandatory;transform:none !important;height:auto;scrollbar-width:none;padding-bottom:24px}
   .hs-track::-webkit-scrollbar{display:none}
-  .hs-track > *{scroll-snap-align:start}
+  .hs:not(.pin-m) .hs-track > *{scroll-snap-align:start}
   .hs-progress{display:none}
   .p2m{padding-block:96px}
   .p2m-intro{flex-basis:88vw}
@@ -1022,3 +1022,60 @@ form.cf.sent{opacity:0;transform:translateY(-20px);pointer-events:none}
 html[lang="fr"] .hero h1{font-size:clamp(50px,9.4vw,182px)}
 html[lang="fr"] .side h3{font-size:clamp(40px,5.6vw,100px)}
 @media (max-width:900px){ html[lang="fr"] .hero h1{font-size:clamp(44px,12vw,84px)} }
+
+/* decorative loops pause while their section is off screen (toggled in scena.js) */
+.offscreen *,.offscreen *::before,.offscreen *::after{animation-play-state:paused!important}
+
+/* phones & tablets: same look, lighter rendering — the full-screen grain stays but stops jittering,
+   and the compact nav uses a near-opaque fill instead of a live blur while scrolling */
+@media (max-width:900px), (pointer:coarse){
+  .grain{animation:none;inset:0}
+  main{overflow-x:clip}
+  html,body{overscroll-behavior-x:none}
+  .nav.compact{background:rgba(17,16,14,.94);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
+/* narrow phones: the four "why" pillars stack so long words (COMMUNICATION) never push the page sideways */
+@media (max-width:560px){
+  .pillars{grid-template-columns:1fr}
+  .pillar,.pillar + .pillar,.pillar:nth-child(3){padding-left:0;border-left:0}
+  .foot-bot nav{flex-wrap:wrap;row-gap:8px}
+}
+/* touch screens: drop the texture overlay (barely visible on a phone, costly to composite) and idle GPU layers */
+@media (pointer:coarse){
+  .grain{display:none}
+  .magnetic,.kw{will-change:auto}
+}
+/* phones tall enough for every panel: horizontal sections are pinned and scroll-driven, as on desktop
+   (class set in scena.js; otherwise they stay a native swipe) */
+@media (max-width:900px){
+  .hs.pin-m .hs-sticky{display:flex;flex-direction:column;padding-top:var(--nav-h);box-sizing:border-box}
+  .hs.pin-m .hs-track{flex:1 1 auto;min-height:0;overflow:visible;height:auto}
+  .hs.pin-m .m-label{flex:none}
+}
+/* map on phones: distance label on the route, thicker route, tap-to-highlight (set in scena.js) */
+.geo-dist{display:none}
+@media (max-width:900px){
+  .geo-dist{display:inline}
+  .geo-dist text{font-family:var(--f-mono);font-size:44px;font-weight:600;fill:var(--ivory);letter-spacing:2px}
+  .geo-dist text.sub{font-size:30px;font-weight:400;fill:var(--sun)}
+  #geoSvg .route{stroke-width:6}
+  #geoSvg .route-base{stroke-width:3}
+  #geoSvg #grat text{display:none}
+  #geoSvg.hl .route{stroke-width:10}
+  /* distance and local times right under the map, before the two market cards */
+  .geo{display:flex;flex-direction:column}
+  .geo .geo-wrap{display:contents}
+  .geo #geoSvg{order:1;margin-top:24px}
+  .geo .geo-stats{order:2;margin-top:20px}
+  .geo .geo-cards{order:3;margin-top:28px}
+}
+/* touch screens: the media formats list reveals the active row's image inline (desktop: floating image under the cursor) */
+.formats .thumb{display:none}
+@media (pointer:coarse){
+  .formats .thumb{display:block;grid-column:2 / -1;height:0;opacity:0;margin-top:0;overflow:hidden;transition:height .7s var(--ease),opacity .6s var(--ease),margin-top .7s var(--ease)}
+  .formats .thumb img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);transition:transform 1.2s var(--ease)}
+  .formats li.act .thumb{height:min(46vw,240px);opacity:1;margin-top:14px}
+  .formats li.act .thumb img{transform:none}
+  .formats li.act .t{color:var(--sun)}
+  .formats li.act a{padding-left:12px}
+}
