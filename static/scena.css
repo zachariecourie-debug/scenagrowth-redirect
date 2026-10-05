@@ -1107,3 +1107,10 @@ html[lang="fr"] .side h3{font-size:clamp(40px,5.6vw,100px)}
   .film-notes .lede,.film-tx{grid-column:1/-1}
   .film-btn{padding:12px 20px;font-size:11px}
 }
+/* ---------- 2026-10 pass 2 ---------- */
+picture{display:contents}
+a.ep{color:inherit;text-decoration:none}
+.wa-badge{display:none}
+.foot-label{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.partners .lead-cap h3{color:var(--sun)}
+@media (max-width:900px){.hero{height:180vh}}

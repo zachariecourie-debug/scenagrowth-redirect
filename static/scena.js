@@ -17,7 +17,7 @@
   if (curtain) {
     const liftCurtain = () => { curtain.classList.add('up'); setTimeout(() => curtain.classList.add('gone'), 1200); };
     if (RM || sessionStorage.getItem('scena-intro')) { curtain.classList.add('gone'); }
-    else { sessionStorage.setItem('scena-intro', '1'); const touch = !matchMedia('(pointer:fine)').matches; addEventListener('load', () => setTimeout(liftCurtain, touch ? 250 : 900)); setTimeout(liftCurtain, touch ? 1400 : 2600); }
+    else { sessionStorage.setItem('scena-intro', '1'); const touch = !matchMedia('(pointer:fine)').matches; addEventListener('load', () => setTimeout(liftCurtain, touch ? 150 : 450)); setTimeout(liftCurtain, touch ? 900 : 1400); }
   }
 
   /* ---------- nav / menu ---------- */
@@ -247,17 +247,18 @@
   let moved = 0;
   if (car) {
     car.innerHTML = eps.map((e, i) => `
-    <button class="ep" role="listitem" data-i="${i}" data-cursor="${FRJS ? 'Regarder' : 'Watch'}" aria-label="${FRJS ? 'Ouvrir l\u2019\u00e9pisode' : 'Open episode'} ${i + 1}: ${FRJS && e.fr ? e.fr : e.t}">
+    <a class="ep" role="listitem" href="${FRJS ? '/fr/contact' : '/contact'}" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
       <div class="ph ${e.tone}"><img src="${ASSETS + e.img}" alt="" loading="lazy" decoding="async" draggable="false">
         <div class="ep-over">
-          <div class="ep-top"><span class="flag">${e.a} <b>↔</b> ${e.b}</span><span class="mono">${FRJS ? e.fmt.replace('Video', 'Vidéo') : e.fmt}</span></div>
+          <div class="ep-top"><span class="flag">${e.a} <b>↔</b> ${e.b}</span><span class="mono">${FRJS ? 'Saison 01' : 'Season 01'}</span></div>
           <div class="ep-bottom"><span class="ep-num">${String(i + 1).padStart(2, '0')}</span>
-            <div style="display:flex;align-items:center;gap:16px"><div class="wave">${wave(18, i)}</div><span class="play"><span class="tri"></span></span></div></div>
+            <div style="display:flex;align-items:center;gap:16px"><div class="wave">${wave(18, i)}</div><span class="play" aria-hidden="true"><span style="color:var(--ink);font-size:20px;line-height:1">→</span></span></div></div>
         </div></div>
-      <div class="ep-meta mono"><span>${FRJS ? 'Épisode' : 'Episode'} ${String(i + 1).padStart(2, '0')}</span><span>${Math.round(e.dur / 60)} min</span><span>${FRJS ? 'Saison 01' : 'Season 01'}</span></div>
+      <div class="ep-meta mono"><span>${FRJS ? 'Thème' : 'Theme'} ${String(i + 1).padStart(2, '0')}</span><span>${FRJS ? 'En cours d\u2019enregistrement' : 'Now recording'}</span></div>
       <h3>${FRJS && e.fr ? e.fr : e.t}</h3>
-      <div class="ep-guest"><span class="av"></span><span>${FRJS ? 'Invité à annoncer' : 'Guest to be announced'}</span></div>
-    </button>`).join('');
+      <div class="ep-guest"><span class="av"></span><span>${FRJS ? 'Proposer un invité →' : 'Propose a guest →'}</span></div>
+    </a>`).join('');
+    car.addEventListener('click', e => { if (moved > 5 && e.target.closest('.ep')) e.preventDefault(); });
     // drag to scroll
     let down = false, sx = 0, sl = 0;
     car.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = 0; sx = e.clientX; sl = car.scrollLeft; });
