@@ -205,7 +205,7 @@
         if (!mob) { o.pin = true; return; }
         const head = $('.m-label', o.sec); const headH = head ? head.offsetHeight : 0;
         const tallest = Math.max(0, ...$$('.hs-track > *', o.sec).map(el => el.offsetHeight));
-        o.pin = tallest + headH + navH + 8 <= svh;
+        o.pin = false;
         o.sec.classList.toggle('pin-m', o.pin);
       });
     }
@@ -232,7 +232,7 @@
 
   /* ---------- podcast ---------- */
   const eps = [
-    { t: 'Building Between Two Markets', fr: 'Construire entre deux marchés', img: 'studio.jpg', tone: 't-mono', a: 'FR', b: 'AE', dur: 3120, fmt: 'Video + audio' },
+    { t: 'Building Between Two Markets', fr: 'Construire entre deux marchés', img: 'studio.jpg', clip: '/static/film/podcast-intro', tone: 't-mono', a: 'FR', b: 'AE', dur: 3120, fmt: 'Video + audio' },
     { t: 'Why France?', fr: 'Pourquoi la France ?', img: 'paris-facade.jpg', tone: 't-mono', a: 'AE', b: 'FR', dur: 2640, fmt: 'Video + audio' },
     { t: 'Why the UAE?', fr: 'Pourquoi les Émirats ?', img: 'uae-facade.jpg', tone: 't-sun', a: 'FR', b: 'AE', dur: 2890, fmt: 'Video + audio' },
     { t: 'Building a Global Brand', fr: 'Construire une marque globale', img: 'mic-1.jpg', tone: 't-warm', a: 'FR', b: 'AE', dur: 3410, fmt: 'Audio' },
@@ -248,7 +248,7 @@
   if (car) {
     car.innerHTML = eps.map((e, i) => `
     <a class="ep" role="listitem" href="${FRJS ? '/fr/contact' : '/contact'}" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
-      <div class="ph ${e.tone}"><img src="${ASSETS + e.img}" alt="" loading="lazy" decoding="async" draggable="false">
+      <div class="ph ${e.tone}">${e.clip ? `<video class="ep-clip" muted loop playsinline preload="none" poster="${e.clip}.jpg" aria-hidden="true"><source src="${e.clip}.mp4" type="video/mp4"></video>` : `<img src="${ASSETS + e.img}" alt="" loading="lazy" decoding="async" draggable="false">`}
         <div class="ep-over">
           <div class="ep-top"><span class="flag">${e.a} <b>↔</b> ${e.b}</span><span class="mono">${FRJS ? 'Saison 01' : 'Season 01'}</span></div>
           <div class="ep-bottom"><span class="ep-num">${String(i + 1).padStart(2, '0')}</span>
@@ -259,6 +259,11 @@
       <div class="ep-guest"><span class="av"></span><span>${FRJS ? 'Proposer un invité →' : 'Propose a guest →'}</span></div>
     </a>`).join('');
     car.addEventListener('click', e => { if (moved > 5 && e.target.closest('.ep')) e.preventDefault(); });
+    const clips = $$('.ep-clip', car);
+    if (clips.length && 'IntersectionObserver' in window && !RM) {
+      const cio = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause(); }), { threshold: .35 });
+      clips.forEach(v => cio.observe(v));
+    }
     // drag to scroll
     let down = false, sx = 0, sl = 0;
     car.addEventListener('pointerdown', e => { if (e.pointerType !== 'mouse') return; down = true; moved = 0; sx = e.clientX; sl = car.scrollLeft; });
@@ -324,6 +329,12 @@
     if (magEmpty) magEmpty.style.display = n ? 'none' : 'block';
   }));
 
+  /* ---------- pause looping animations off screen ---------- */
+  if ('IntersectionObserver' in window) {
+    const aio = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('anim-off', !e.isIntersecting)), { rootMargin: '100px 0px' });
+    $$('main > section').forEach(sec => aio.observe(sec));
+  }
+
   /* ---------- map ---------- */
   const svg = $('#geoSvg');
   let route = null;
@@ -343,13 +354,23 @@
     for (let lat = 10; lat <= 60; lat += 10) { const y = proj(0, lat)[1]; g += `<line class="grat${lat % 30 === 0 ? ' maj' : ''}" x1="0" y1="${y}" x2="1600" y2="${y}"/>`; }
     for (let lat = 20; lat <= 60; lat += 10) { const y = proj(0, lat)[1]; g += `<text x="8" y="${y - 6}" fill="#8C857A" font-family="JetBrains Mono" font-size="11">${lat}°N</text>`; }
     $('#grat').innerHTML = g;
-    let dots = ''; const samples = Array.from({ length: 40 }, (_, i) => route.getPointAtLength(len * i / 39));
-    for (let x = 20; x < 1600; x += 26) for (let y = 20; y < 900; y += 26) {
-      let dm = 1e9; for (const s of samples) { const d = (s.x - x) ** 2 + (s.y - y) ** 2; if (d < dm) dm = d; }
-      dm = Math.sqrt(dm); const o = dm < 220 ? (0.06 + 0.5 * (1 - dm / 220) ** 2) : 0.05;
-      dots += `<circle cx="${x}" cy="${y}" r="${dm < 60 ? 1.8 : 1.3}" fill="rgba(242,237,228,${o.toFixed(3)})"/>`;
-    }
-    $('#dots').innerHTML = dots;
+    const buildDots = () => {
+      const samples = Array.from({ length: 40 }, (_, i) => route.getPointAtLength(len * i / 39));
+      const groups = new Map();
+      for (let x = 20; x < 1600; x += 26) for (let y = 20; y < 900; y += 26) {
+        let dm = 1e9; for (const s of samples) { const d = (s.x - x) ** 2 + (s.y - y) ** 2; if (d < dm) dm = d; }
+        dm = Math.sqrt(dm); const o = dm < 220 ? (0.06 + 0.5 * (1 - dm / 220) ** 2) : 0.05;
+        const key = (dm < 60 ? 1.8 : 1.3) + '|' + (Math.round(o * 40) / 40).toFixed(3);
+        groups.set(key, (groups.get(key) || '') + `M${x} ${y}h0`);
+      }
+      let dots = '';
+      groups.forEach((d, key) => { const [r, o] = key.split('|'); dots += `<path d="${d}" stroke="rgba(242,237,228,${o})" stroke-width="${r * 2}" stroke-linecap="round" fill="none"/>`; });
+      $('#dots').innerHTML = dots;
+    };
+    if ('IntersectionObserver' in window) {
+      const dio = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { dio.disconnect(); buildDots(); } }, { rootMargin: '800px 0px' });
+      dio.observe(svg);
+    } else buildDots();
     $$('.gcard').forEach(c => c.addEventListener('pointerenter', () => route.style.strokeWidth = 3));
     $$('.gcard').forEach(c => c.addEventListener('pointerleave', () => route.style.strokeWidth = ''));
 
