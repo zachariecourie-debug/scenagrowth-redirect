@@ -1079,3 +1079,31 @@ html[lang="fr"] .side h3{font-size:clamp(40px,5.6vw,100px)}
   .formats li.act .t{color:var(--sun)}
   .formats li.act a{padding-left:12px}
 }
+
+/* ---------- 2026-10 audit: film, market access teaser, about images ---------- */
+.film-frame{position:relative;margin-top:clamp(40px,5vw,72px);aspect-ratio:16/9;background:#000;overflow:hidden}
+.film-play{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;cursor:pointer;position:relative}
+.film-play img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease)}
+.film-play:hover img{transform:scale(1.02)}
+.film-play:focus-visible{outline:2px solid var(--sun);outline-offset:4px}
+.film-btn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:inline-flex;align-items:center;gap:12px;padding:16px 28px;border-radius:999px;border:1px solid rgba(242,237,228,.4);background:rgba(10,10,10,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--ivory);font-size:12px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:background .4s}
+.film-play:hover .film-btn{background:rgba(10,10,10,.7)}
+.film-btn .dot{width:8px;height:8px;border-radius:50%;background:var(--sun)}
+.film-frame video{display:block;width:100%;height:100%;background:#000}
+.film-notes{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;margin-top:clamp(28px,3vw,48px);align-items:start}
+.film-notes .lede{grid-column:1/7;font-family:var(--f-serif);font-size:clamp(22px,2vw,32px);line-height:1.15;max-width:30ch}
+.film-tx{grid-column:8/13}
+.film-tx summary{cursor:pointer;color:var(--stone);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.film-tx p{margin-top:16px;color:var(--stone);font-size:15px;line-height:1.6}
+.film-tx .film-note{font-size:11px;letter-spacing:.08em;opacity:.7}
+.mx-ctas{display:flex;flex-wrap:wrap;align-items:center;gap:28px;margin-top:clamp(40px,5vw,72px)}
+.ab-img1,.ab-img2{overflow:hidden}
+.ab-img1 img,.ab-img2 img{width:100%;height:100%;object-fit:cover;filter:grayscale(.25) contrast(1.05)}
+@media (min-width:901px){
+  .pillars.p3{grid-template-columns:repeat(3,1fr)}
+  .mag .art.lead.r3{grid-row:span 3}
+}
+@media (max-width:900px){
+  .film-notes .lede,.film-tx{grid-column:1/-1}
+  .film-btn{padding:12px 20px;font-size:11px}
+}
