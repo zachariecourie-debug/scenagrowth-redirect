@@ -321,6 +321,14 @@
     $$('main > section').forEach(sec => aio.observe(sec));
   }
 
+  /* ---------- Test → Enter → Grow route (static if no JS / reduced motion) ---------- */
+  const tg = $('.tegrow');
+  if (tg && !RM && 'IntersectionObserver' in window) {
+    tg.classList.add('armed');
+    const tio = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { tg.classList.add('in'); tio.disconnect(); } }), { threshold: .35 });
+    tio.observe(tg);
+  }
+
   /* ---------- corridor tabs ---------- */
   const ctabs = $$('.ctabs [role=tab]');
   if (ctabs.length) {
