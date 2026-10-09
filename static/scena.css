@@ -1231,3 +1231,12 @@ a.ep{color:inherit;text-decoration:none}
 .re-f img,.re-frame img{height:auto}
 .received h2{font-size:clamp(72px,11vw,200px);display:flex;overflow:hidden}.received h2 span{display:inline-block;transform:translateY(110%);transition:transform 1.1s var(--ease)}
 .received.show h2 span{transform:none}
+
+/* ---------- V7.2 service pages ---------- */
+.svc-fit .re-steps{grid-template-columns:repeat(4,minmax(0,1fr))}
+.svc-fit .re-steps li:nth-child(5){padding-left:16px}
+.re-x.delivery li{display:flex;flex-direction:column;gap:8px}
+.re-x.delivery .mono{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#ad3f18}
+.re-x.delivery{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.re-x.delivery{grid-template-columns:1fr}.svc-fit .re-steps{grid-template-columns:1fr 1fr}.svc-fit .re-steps li:nth-child(3){padding-left:0;border-left:0}.svc-fit .re-steps li:nth-child(n+3){border-top:1px solid var(--line-l)}}
+@media (max-width:560px){.svc-fit .re-steps{grid-template-columns:1fr}}
