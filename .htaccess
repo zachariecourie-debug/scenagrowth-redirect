@@ -10,6 +10,10 @@ ErrorDocument 404 /404.html
 
 RewriteEngine On
 
+# scenagrowth.com (with or without www) → scenagrowth.fr, keeping the path, one hop.
+RewriteCond %{HTTP_HOST} ^(www\.)?scenagrowth\.com$ [NC]
+RewriteRule ^ https://www.scenagrowth.fr%{REQUEST_URI} [R=301,L]
+
 # Bare domains → www (permanent), keeping the path.
 RewriteCond %{HTTP_HOST} ^(scenagrowth\.fr|carrosserielb\.fr)$ [NC]
 RewriteRule ^ https://www.%1%{REQUEST_URI} [R=301,L]
