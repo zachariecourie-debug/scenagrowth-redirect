@@ -1383,3 +1383,35 @@ html:not(.js) .curtain{display:none}
 .sp-player:not(.armed) .sp-scene figcaption{left:16px;right:16px;bottom:16px;max-width:none}.sp-player:not(.armed) .sp-t{font-size:clamp(20px,1.8vw,28px)}.sp-player:not(.armed) .sp-l{font-size:16px}
 .sp-bars{gap:8px}.sp-bars button{padding:11px 0;min-height:24px;box-sizing:border-box}.sp-pause{min-height:24px;min-width:44px;text-align:center;box-sizing:border-box}
 .pillar-links{gap:4px 22px}.pillar-links .link-u{display:inline-flex;align-items:center;min-height:28px}
+
+/* ---------- v11: offer ---------- */
+.tg-step .tg-n{white-space:nowrap}
+.journey4{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,3fr);gap:16px 32px;margin-top:clamp(40px,5vw,72px);padding-top:22px;border-top:1px solid var(--line-l)}
+.journey4 > .mono{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#ad3f18}
+.journey4 ol{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.journey4 li{display:flex;flex-direction:column;gap:6px}
+.journey4 li .mono{font-size:10px;color:var(--muted)}
+.journey4 li b{font-stretch:78%;font-weight:760;text-transform:uppercase;font-size:18px;line-height:1}
+.journey4 li span:last-child{color:var(--graphite);font-size:14px;line-height:1.45}
+.j4-scope{grid-column:2;color:var(--muted);font-size:14px}
+.route-list{list-style:none}
+.ful-list{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0 48px;margin-top:clamp(40px,5vw,64px);counter-reset:f}
+.ful-list li{padding:16px 0 16px 34px;border-top:1px solid var(--line-d);color:var(--stone);position:relative;counter-increment:f}
+.ful-list li::before{content:counter(f,decimal-leading-zero);position:absolute;left:0;top:18px;font-family:var(--f-mono);font-size:10.5px;color:var(--sun-2)}
+.dark .re-x.delivery li{border-color:var(--line-d);color:var(--stone)}
+.dark .re-x.delivery .mono{color:var(--sun-2)}
+.re-x.dm4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.dm-note{margin-top:18px;font-size:10.5px;letter-spacing:.1em;color:var(--stone)}
+.eng-list{list-style:none;display:grid;gap:6px}
+.eng-list li{padding-left:14px;position:relative;line-height:1.45}
+.eng-list li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:1px;background:#ad3f18}
+@media (max-width:1100px){.re-x.dm4{grid-template-columns:1fr 1fr}}
+@media (max-width:900px){.journey4,.ful-list,.re-x.dm4{grid-template-columns:1fr}.journey4 ol{grid-template-columns:1fr 1fr}.j4-scope{grid-column:1}}
+
+/* v11 a11y: footer headings h3 (same look), darker accent on light backgrounds */
+.foot h3.foot-h{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-bottom:16px}
+.light .list-rows .n,.paper .list-rows .n,.light .svc-card .go,.paper .svc-card .go{color:#ad3f18}
+.foot h3.foot-h{font-stretch:100%;line-height:1.4}
+.j-fill{list-style:none}.j-step:not(.on){opacity:.8}
+.light .j-step p,.paper .j-step p{color:color-mix(in srgb,currentColor 84%,transparent)}
+.light .j-step.last h3,.paper .j-step.last h3{color:#ad3f18}

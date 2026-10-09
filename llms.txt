@@ -17,6 +17,8 @@
 - [SCENA Real Estate](https://www.scenagrowth.fr/real-estate): AI-assisted real estate visualization and property films. Turns supplied architectural plans into still visualizations, property films and pre-sales content for developers, agencies, architects and investors. Creative visualization for marketing and pre-sales — not technical construction documentation. The SCENA Residence example on the page is a fictional creative concept, not a client project. French version: https://www.scenagrowth.fr/fr/real-estate
 - Partners: MyAlex.io (commercial intelligence & B2B development) and Majlis Rare (luxury experiences & market activations) are integrated selectively into SCENA projects; SCENA remains the sole strategic and commercial point of contact.
 
+- Offer structure: (A) Market Access & Business Development, (B) Distribution & Retail Development, (C) Fulfillment, Logistics & Market Operations — storage, order preparation and delivery are run by selected providers, coordinated by SCENA; SCENA does not own warehouses, hold stock or act as importer/merchant of record by default. Engagement types: Market Test, Market Entry, Market Growth (Test → Enter → Grow). https://www.scenagrowth.fr/retail-distribution#fulfillment
+
 ## Directions
 - [UAE → France](https://www.scenagrowth.fr/uae-to-france): Scena Growth helps UAE companies enter and develop in the French market: research, positioning, brand and packaging localisation, communication, influence, retail, distribution and business development. Steps: UAE brand → French market research → Brand positioning → Packaging adaptation → Communication campaign → Influencer activation → Retail strategy → Distribution → French market launch.
 - [SCENA Market Access](https://www.scenagrowth.fr/market-access): Test the market before investing in it. A low-risk, performance-led model to test, enter and grow between France and the UAE without building everything from scratch: market potential → e-commerce (Shopify) → localised offer → content & creators → events & pop-ups → sales & distribution → local setup only if it works. Remuneration: sales commission, business commission, revenue share or hybrid. French version: https://www.scenagrowth.fr/fr/market-access
@@ -24,7 +26,7 @@
 
 ## Frequently asked questions
 - Q: What does Scena Growth do?
-  A: Scena Growth helps companies grow between France and the UAE. We combine market entry strategy, brand and communication, business development, retail and distribution, content, podcasts and events in a single team.
+  A: Scena Growth helps companies grow between France and the UAE. We combine market entry strategy, brand and communication, business development, retail and distribution, content, podcasts and events with one point of contact.
 - Q: Can Scena help a UAE company enter the French market?
   A: Yes. For UAE brands we run French market research, positioning, brand and packaging localisation, communication and influencer campaigns, retail strategy, distribution and business development through to launch.
 - Q: Can Scena help a French company expand into the UAE?

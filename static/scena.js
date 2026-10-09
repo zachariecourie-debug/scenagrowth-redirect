@@ -153,8 +153,8 @@
 
   /* ---------- SERVICES ---------- */
   const rows = $$('.svc-row'), bgs = $$('#buildBg .ph'), bigNum = $('#bigNum'), tagsEl = $('#svcTags');
-  const svcTagsEn = [['Market test', 'Entry model', 'Introductions', 'Partnerships'], ['Positioning', 'Localisation', 'Campaigns', 'Content'], ['Retail strategy', 'Distributors', 'Activations', 'Launch events']];
-  const svcTagsFr = [['Test de marché', "Modèle d'entrée", 'Introductions', 'Partenariats'], ['Positionnement', 'Localisation', 'Campagnes', 'Contenus'], ['Stratégie retail', 'Distributeurs', 'Activations', 'Lancements']];
+  const svcTagsEn = [["Market assessment", "Entry roadmap", "Target mapping", "Introductions"], ["Distributor map", "Retail mapping", "Channel strategy", "Product dossiers"], ["Fulfillment needs", "Provider shortlist", "Launch stock", "Coordination"]];
+  const svcTagsFr = [["Évaluation marché", "Feuille de route", "Cartographie des cibles", "Introductions"], ["Carte distributeurs", "Carte retail", "Stratégie de canal", "Dossiers produit"], ["Besoins logistiques", "Short-list prestataires", "Stock de lancement", "Coordination"]];
   const svcTags = FRJS ? svcTagsFr : svcTagsEn;
   const setSvc = i => {
     rows.forEach((r, k) => { r.classList.toggle('on', k === i); $('button', r).setAttribute('aria-expanded', String(k === i)); });
