@@ -350,18 +350,19 @@
     show(0); label();
   }
 
-  /* ---------- corridor tabs ---------- */
-  const ctabs = $$('.ctabs [role=tab]');
-  if (ctabs.length) {
+  /* ---------- tab groups (corridor, explore); without JS every panel stays visible ---------- */
+  $$('.ctabs[role=tablist]').forEach(list => {
+    const tabs = $$('[role=tab]', list);
     const show = t => {
-      ctabs.forEach(b => { const on = b === t; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; const p = document.getElementById(b.getAttribute('aria-controls')); if (p) p.hidden = !on; });
+      tabs.forEach(b => { const on = b === t; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; const p = document.getElementById(b.getAttribute('aria-controls')); if (p) p.hidden = !on; });
       dispatchEvent(new Event('resize'));
     };
-    ctabs.forEach((b, i) => {
+    tabs.forEach((b, i) => {
       b.addEventListener('click', () => show(b));
-      b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = ctabs[(i + (e.key === 'ArrowRight' ? 1 : ctabs.length - 1)) % ctabs.length]; show(n); n.focus(); } });
+      b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length]; show(n); n.focus(); } });
     });
-  }
+    show(tabs.find(b => b.getAttribute('aria-selected') === 'true') || tabs[0]);
+  });
 
   /* ---------- map ---------- */
   const svg = $('#geoSvg');

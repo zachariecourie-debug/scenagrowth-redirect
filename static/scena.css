@@ -1415,3 +1415,15 @@ html:not(.js) .curtain{display:none}
 .j-fill{list-style:none}.j-step:not(.on){opacity:.8}
 .light .j-step p,.paper .j-step p{color:color-mix(in srgb,currentColor 84%,transparent)}
 .light .j-step.last h3,.paper .j-step.last h3{color:#ad3f18}
+
+/* ---------- v12: explore tabs + footer partners ---------- */
+.explore-tabs .ctabs{flex-wrap:wrap}
+.explore-tabs > .ctab-panel{padding-top:clamp(56px,7vw,104px)}
+.explore-tabs > .ctab-panel.film{padding-top:clamp(40px,5vw,72px)}
+.foot-partners{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) minmax(0,1.6fr);gap:12px 32px;margin-top:clamp(40px,5vw,64px);padding-top:24px;border-top:1px solid var(--line-d)}
+.foot-partners p{color:var(--stone);font-size:14px;line-height:1.55}
+.foot-partners ul{list-style:none;display:grid;gap:10px}
+.foot-partners li{display:flex;flex-direction:column;gap:2px}
+.foot-partners li b{font-weight:600;color:var(--ivory)}
+.foot-partners li span{color:var(--stone);font-size:14px}
+@media (max-width:900px){.foot-partners{grid-template-columns:1fr}.explore-tabs .ctabs button{padding:12px 12px}}
