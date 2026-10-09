@@ -329,6 +329,27 @@
     tio.observe(tg);
   }
 
+  /* ---------- spec-ads player (static strip without JS) ---------- */
+  const sp = $('#spPlayer');
+  if (sp) {
+    const scenes = $$('.sp-scene', sp), bars = $$('.sp-bars button', sp), pz = $('.sp-pause', sp);
+    const DUR = 6000; let cur = 0, timer = null, visible = false, user = RM;
+    sp.classList.add('armed'); sp.style.setProperty('--dur', DUR / 1000 + 's');
+    const show = i => {
+      cur = (i + scenes.length) % scenes.length;
+      scenes.forEach((s, k) => { s.classList.toggle('on', k === cur); s.setAttribute('aria-hidden', String(k !== cur)); const im = $('img', s); if (k === cur && im) im.loading = 'eager'; });
+      bars.forEach((b, k) => b.setAttribute('aria-current', String(k === cur)));
+    };
+    const stop = () => { clearInterval(timer); timer = null; sp.classList.remove('playing'); };
+    const play = () => { if (timer || user || !visible) return; sp.classList.add('playing'); timer = setInterval(() => { show(cur + 1); restartBar(); }, DUR); };
+    const restartBar = () => { sp.classList.remove('playing'); void sp.offsetWidth; if (timer) sp.classList.add('playing'); };
+    const label = () => { pz.textContent = user ? pz.dataset.labelPlay : pz.dataset.labelPause; pz.setAttribute('aria-pressed', String(user)); };
+    bars.forEach((b, i) => b.addEventListener('click', () => { show(i); if (timer) { stop(); play(); } }));
+    pz.addEventListener('click', () => { user = !user; label(); user ? stop() : play(); });
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { visible = e.isIntersecting; visible ? play() : stop(); }), { threshold: .3 }).observe(sp);
+    show(0); label();
+  }
+
   /* ---------- corridor tabs ---------- */
   const ctabs = $$('.ctabs [role=tab]');
   if (ctabs.length) {
