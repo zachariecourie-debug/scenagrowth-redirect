@@ -29,6 +29,10 @@ RewriteRule ^fr/market-entry/?$ https://%{HTTP_HOST}/fr/market-access [R=301,L]
 # Contact form endpoint.
 RewriteRule ^api/contact/?$ api/contact.php [L]
 
+# Direct requests for .../index.html → clean URL (one hop; internal rewrites are not affected).
+RewriteCond %{THE_REQUEST} \s/+([^\s?]*?)/?index\.html[\s?] [NC]
+RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L]
+
 # Trailing slash → no trailing slash (permanent), except the home page.
 RewriteCond %{REQUEST_URI} !^/$
 RewriteRule ^(.+)/$ https://%{HTTP_HOST}/$1 [R=301,L]
