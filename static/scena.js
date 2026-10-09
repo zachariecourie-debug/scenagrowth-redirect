@@ -321,6 +321,19 @@
     $$('main > section').forEach(sec => aio.observe(sec));
   }
 
+  /* ---------- corridor tabs ---------- */
+  const ctabs = $$('.ctabs [role=tab]');
+  if (ctabs.length) {
+    const show = t => {
+      ctabs.forEach(b => { const on = b === t; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; const p = document.getElementById(b.getAttribute('aria-controls')); if (p) p.hidden = !on; });
+      dispatchEvent(new Event('resize'));
+    };
+    ctabs.forEach((b, i) => {
+      b.addEventListener('click', () => show(b));
+      b.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = ctabs[(i + (e.key === 'ArrowRight' ? 1 : ctabs.length - 1)) % ctabs.length]; show(n); n.focus(); } });
+    });
+  }
+
   /* ---------- map ---------- */
   const svg = $('#geoSvg');
   let route = null;

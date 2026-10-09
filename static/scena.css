@@ -1242,9 +1242,6 @@ a.ep{color:inherit;text-decoration:none}
 @media (max-width:560px){.svc-fit .re-steps{grid-template-columns:1fr}}
 
 /* ---------- R1 redesign: shorter homepage, three pillars ---------- */
-.hero{height:240vh}
-@media (max-width:1100px){.hero{height:190vh}}
-@media (max-width:900px){.hero{height:150vh}}
 .pillar-links{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:16px}
 .pillar-links .link-u{font-size:11px}
 .svc-row .more p b{color:var(--ivory);font-weight:600}
@@ -1266,3 +1263,12 @@ a.ep{color:inherit;text-decoration:none}
 .pgroup-head .lede{color:var(--graphite);font-size:17px;line-height:1.5}
 .pgroup .svc-cards{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:900px){.hw-notes,.work-grid,.pgroup-head{grid-template-columns:1fr}.pgroup .svc-cards{grid-template-columns:1fr}}
+
+/* ---------- home fixes: corridor tabs ---------- */
+.corridor-tabs{background:var(--ink);color:var(--ivory);padding-top:clamp(72px,9vw,140px)}
+.ctabs{display:flex;gap:6px;margin-top:28px;border-bottom:1px solid var(--line-d)}
+.ctabs button{all:unset;cursor:pointer;padding:14px 18px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
+.ctabs button[aria-selected="true"]{color:var(--ivory);border-color:var(--sun)}
+.ctabs button:focus-visible{outline:2px solid var(--sun);outline-offset:-2px}
+.corridor-tabs > .ctab-panel{padding-top:clamp(40px,5vw,72px)}
+.ctab-panel[hidden]{display:none}
