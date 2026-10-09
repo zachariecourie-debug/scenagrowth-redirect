@@ -153,22 +153,8 @@
 
   /* ---------- SERVICES ---------- */
   const rows = $$('.svc-row'), bgs = $$('#buildBg .ph'), bigNum = $('#bigNum'), tagsEl = $('#svcTags');
-  const svcTagsEn = [
-    ['Market study', 'Entry model', 'Regulation', 'Go-to-market'],
-    ['Lead generation', 'Meetings', 'Partnerships', 'Pipeline'],
-    ['Positioning', 'Localisation', 'Packaging', 'Campaigns', 'Influence'],
-    ['Retail strategy', 'Buyers', 'Importers', 'Distributors'],
-    ['Podcast', 'Video', 'Founder stories', 'Social'],
-    ['Launch events', 'Activations', 'Conferences', 'Hospitality']
-  ];
-  const svcTagsFr = [
-    ['Étude de marché', "Modèle d'entrée", 'Réglementation', 'Go-to-market'],
-    ['Génération de leads', 'Rendez-vous', 'Partenariats', 'Pipeline'],
-    ['Positionnement', 'Localisation', 'Packaging', 'Campagnes', 'Influence'],
-    ['Stratégie retail', 'Acheteurs', 'Importateurs', 'Distributeurs'],
-    ['Podcast', 'Vidéo', 'Histoires de fondateurs', 'Réseaux sociaux'],
-    ['Événements de lancement', 'Activations', 'Conférences', 'Hospitalité']
-  ];
+  const svcTagsEn = [['Market test', 'Entry model', 'Introductions', 'Partnerships'], ['Positioning', 'Localisation', 'Campaigns', 'Content'], ['Retail strategy', 'Distributors', 'Activations', 'Launch events']];
+  const svcTagsFr = [['Test de marché', "Modèle d'entrée", 'Introductions', 'Partenariats'], ['Positionnement', 'Localisation', 'Campagnes', 'Contenus'], ['Stratégie retail', 'Distributeurs', 'Activations', 'Lancements']];
   const svcTags = FRJS ? svcTagsFr : svcTagsEn;
   const setSvc = i => {
     rows.forEach((r, k) => { r.classList.toggle('on', k === i); $('button', r).setAttribute('aria-expanded', String(k === i)); });
