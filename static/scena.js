@@ -429,18 +429,21 @@
     const submitBtn = $('button[type=submit]', cf);
     cf.addEventListener('submit', async e => {
       e.preventDefault(); let ok = true;
-      ['fn', 'ln', 'em'].forEach(id => {
-        const el = $('#' + id); const bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value));
+      const fr = document.documentElement.lang === 'fr';
+      $$('[required]', cf).forEach(el => {
+        const bad = !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value));
         el.closest('.fld').classList.toggle('err', bad); if (bad && ok) { el.focus(); ok = false; }
       });
+      const file = $('#fl', cf), big = file && file.files[0] && file.files[0].size > 10 * 1024 * 1024;
+      if (file) file.closest('.fld').classList.toggle('err', !!big);
+      if (big && cfErr) { cfErr.hidden = false; cfErr.textContent = fr ? 'Fichier trop lourd (10 Mo max) — partagez plutôt un lien dans le message.' : 'File too large (10 MB max) — share a link in your message instead.'; ok = false; }
       if (!ok) return;
       const fd = new FormData(cf);
-      const data = {};
-      fd.forEach((v, k) => { if (k === 'type') { (data.type = data.type || []).push(v); } else data[k] = v; });
-      data.page = location.pathname;
+      if (file && !file.files.length) fd.delete('file');
+      fd.append('page', location.pathname);
       submitBtn.disabled = true; cfErr && (cfErr.hidden = true);
       try {
-        const r = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        const r = await fetch('/api/contact', { method: 'POST', body: fd });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || !j.ok) throw new Error(j.error || 'Request failed');
         cf.classList.add('sent'); setTimeout(() => recv.classList.add('show'), 400);
@@ -448,8 +451,39 @@
         if (cfErr) { cfErr.hidden = false; cfErr.textContent = document.documentElement.lang === 'fr' ? 'Une erreur est survenue — écrivez-nous directement à contact@scenagrowth.fr.' : 'Something went wrong — please email contact@scenagrowth.fr directly.'; }
       } finally { submitBtn.disabled = false; }
     });
+    // Objective drives the Real Estate questions; contextual CTAs preselect it.
+    const ob = $('#ob', cf), reQ = $('[data-re-block]', cf);
+    const setObj = key => { if (!ob) return; const o = $(`option[data-key="${key}"]`, ob); if (o) { ob.value = o.value; ob.dispatchEvent(new Event('change')); } };
+    if (ob && reQ) ob.addEventListener('change', () => { reQ.hidden = (ob.selectedOptions[0] || {}).dataset?.key !== 're'; });
+    try { const k = new URLSearchParams(location.search).get('objective'); if (k) setObj(k); } catch (e) {}
+    $$('[data-objective]').forEach(a => a.addEventListener('click', () => setObj(a.dataset.objective)));
     const again = $('#again');
     again && (again.onclick = () => { recv.classList.remove('show'); cf.reset(); setTimeout(() => cf.classList.remove('sent'), 300); });
+  }
+
+  /* ---------- Real Estate: plan → property frame sequence ---------- */
+  const reSeq = $('#reSeq');
+  if (reSeq) {
+    const tabs = $$('.re-tabs button', reSeq), frames = $$('.re-frame', reSeq);
+    reSeq.classList.add('on');
+    let cur = 0, timer = null;
+    const show = i => {
+      cur = (i + frames.length) % frames.length;
+      frames.forEach((f, j) => f.classList.toggle('on', j === cur));
+      tabs.forEach((t, j) => t.setAttribute('aria-current', String(j === cur)));
+      const img = $('img', frames[cur]); if (img && img.loading === 'lazy') img.loading = 'eager';
+    };
+    const stop = () => { clearInterval(timer); timer = null; };
+    tabs.forEach((t, i) => t.addEventListener('click', () => { stop(); show(i); }));
+    reSeq.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { stop(); show(cur + (e.key === 'ArrowRight' ? 1 : -1)); tabs[cur].focus(); } });
+    if (!RM && 'IntersectionObserver' in window) {
+      new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting && !timer && !reSeq.dataset.touched) timer = setInterval(() => show(cur + 1), 3800);
+        else if (!e.isIntersecting) stop();
+      }), { threshold: .4 }).observe(reSeq);
+      reSeq.addEventListener('pointerdown', () => { reSeq.dataset.touched = '1'; stop(); });
+    }
+    show(0);
   }
 
   /* ---------- WhatsApp widget ---------- */

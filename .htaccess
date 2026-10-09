@@ -22,6 +22,10 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 RewriteRule (^|/)\.git(/|$) - [R=404,L]
 RewriteRule ^README\.md$ - [R=404,L]
 
+# /market-entry merged into /market-access (same search intent), 2026-10.
+RewriteRule ^market-entry/?$ https://%{HTTP_HOST}/market-access [R=301,L]
+RewriteRule ^fr/market-entry/?$ https://%{HTTP_HOST}/fr/market-access [R=301,L]
+
 # Contact form endpoint.
 RewriteRule ^api/contact/?$ api/contact.php [L]
 
@@ -43,7 +47,7 @@ RewriteRule ^(.+)$ $1/index.html [L]
   <FilesMatch "\.html$">
     Header set Cache-Control "public, max-age=0, must-revalidate"
   </FilesMatch>
-  <FilesMatch "\.(css|js|woff2|jpg|jpeg|png|svg|ico)$">
+  <FilesMatch "\.(css|js|woff2|jpg|jpeg|png|webp|svg|ico|mp4)$">
     Header set Cache-Control "public, max-age=604800"
   </FilesMatch>
 </IfModule>
