@@ -1428,9 +1428,9 @@ html:not(.js) .curtain{display:none}
 .foot-partners li span{color:var(--stone);font-size:14px}
 @media (max-width:900px){.foot-partners{grid-template-columns:1fr}.explore-tabs .ctabs button{padding:12px 12px}}
 
-/* ---------- v15: tab bar under the hero, opening the Explore tabs at the bottom ---------- */
-.quicktabs{padding:24px 0 8px}
-.quicktabs .ctabs{list-style:none;margin:0;padding:0}
-.quicktabs a{display:block;padding:16px 20px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
-.quicktabs a:hover,.quicktabs a:focus-visible{color:var(--ivory);border-color:var(--sun)}
-@media (max-width:900px){.quicktabs a{padding:12px 12px}}
+
+/* ---------- v16: insights at the bottom of the footer Explore links ---------- */
+.foot .foot-ins{margin-top:6px}
+.foot .foot-sub{list-style:none;margin:8px 0 0;padding-left:12px;border-left:1px solid var(--line-d);display:grid;gap:6px}
+.foot .foot-sub a{font-size:13px;line-height:1.35;color:var(--stone)}
+.foot .foot-sub a:hover{color:var(--sun)}
