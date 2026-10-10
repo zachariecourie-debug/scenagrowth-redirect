@@ -35,6 +35,26 @@
     wipe.classList.remove('run'); void wipe.offsetWidth; wipe.classList.add('run');
     setTimeout(cb, 460);
   };
+  // Language hint: English on scenagrowth.com, French on scenagrowth.fr. When the browser language does not
+  // match the site, suggest the same page on the other domain (never an automatic redirect).
+  (() => {
+    const other = document.querySelector(`link[rel="alternate"][hreflang="${FRJS ? 'en' : 'fr'}"]`);
+    if (!other) return;
+    const first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').slice(0, 2).toLowerCase();
+    if (!first || (first === 'fr') === FRJS) return;
+    try { if (localStorage.getItem('scenaLangHint')) return; } catch (e) {}
+    const bar = document.createElement('div');
+    bar.className = 'lang-hint';
+    bar.setAttribute('role', 'region');
+    bar.setAttribute('lang', FRJS ? 'en' : 'fr');
+    bar.setAttribute('aria-label', FRJS ? 'Language' : 'Langue');
+    bar.innerHTML = FRJS
+      ? `<span>This page is also available in English.</span><a href="${other.href}" hreflang="en">View in English →</a><button type="button" aria-label="Close">✕</button>`
+      : `<span>Cette page existe aussi en français.</span><a href="${other.href}" hreflang="fr">Voir en français →</a><button type="button" aria-label="Fermer">✕</button>`;
+    $('button', bar).addEventListener('click', () => { bar.remove(); try { localStorage.setItem('scenaLangHint', '1'); } catch (e) {} });
+    document.body.appendChild(bar);
+  })();
+
   $$('a[data-go]').forEach(a => a.addEventListener('click', e => {
     const href = a.getAttribute('href') || '';
     const wasMenu = document.body.classList.contains('menu-open');
@@ -51,7 +71,7 @@
     }
     // Same-page hash on another route (e.g. "/#work" while on "/")
     const homeHash = href.startsWith('/#') ? href.slice(1) : href.startsWith('/fr#') ? href.slice(3) : null;
-    if (homeHash && (location.pathname === '/' || location.pathname === '/fr')) {
+    if (homeHash && location.pathname === '/') {
       const t = $(homeHash); if (!t) return;
       e.preventDefault(); closeMenu();
       const y = t.getBoundingClientRect().top + scrollY;
@@ -233,7 +253,7 @@
   let moved = 0;
   if (car) {
     car.innerHTML = eps.map((e, i) => `
-    <a class="ep" role="listitem" href="${FRJS ? '/fr/contact' : '/contact'}" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
+    <a class="ep" role="listitem" href="/contact" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
       <div class="ph ${e.tone}">${e.clip ? `<video class="ep-clip" muted loop playsinline preload="none" poster="${e.clip}.jpg" aria-hidden="true"><source src="${e.clip}.mp4" type="video/mp4"></video>` : `<img src="${ASSETS + e.img}" alt="" loading="lazy" decoding="async" draggable="false">`}
         <div class="ep-over">
           <div class="ep-top"><span class="flag">${e.a} <b>↔</b> ${e.b}</span><span class="mono">${FRJS ? 'Saison 01' : 'Season 01'}</span></div>
