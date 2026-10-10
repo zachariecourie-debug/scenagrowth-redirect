@@ -1,170 +1,171 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://www.scenagrowth.com/</loc>
+    <loc>https://www.scenagrowth.fr/</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/"/>
-    <lastmod>2026-10-09</lastmod>
+    <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <priority>0.9</priority>
     <image:image><image:loc>https://www.scenagrowth.com/static/og/scena-home-1200x630.jpg</image:loc><image:title>Scena Growth — Build the bridge. Grow the business.</image:title></image:image>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/about</loc>
+    <loc>https://www.scenagrowth.fr/about</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/about"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/about"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/about"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/services</loc>
+    <loc>https://www.scenagrowth.fr/services</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/services"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/services"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/services"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/business-development</loc>
+    <loc>https://www.scenagrowth.fr/business-development</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/business-development"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/business-development"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/business-development"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/brand-communication</loc>
+    <loc>https://www.scenagrowth.fr/brand-communication</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/brand-communication"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/brand-communication"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/brand-communication"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/retail-distribution</loc>
+    <loc>https://www.scenagrowth.fr/retail-distribution</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/retail-distribution"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/retail-distribution"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/retail-distribution"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/media</loc>
+    <loc>https://www.scenagrowth.fr/media</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/media"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/media"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/media"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/podcast</loc>
+    <loc>https://www.scenagrowth.fr/podcast</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/podcast"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/podcast"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/podcast"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/insights</loc>
+    <loc>https://www.scenagrowth.fr/insights</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/uae-to-france</loc>
+    <loc>https://www.scenagrowth.fr/uae-to-france</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/uae-to-france"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/uae-to-france"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/uae-to-france"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/france-to-uae</loc>
+    <loc>https://www.scenagrowth.fr/france-to-uae</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/france-to-uae"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/france-to-uae"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/france-to-uae"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/market-access</loc>
+    <loc>https://www.scenagrowth.fr/market-access</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/market-access"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/market-access"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/market-access"/>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/contact</loc>
+    <loc>https://www.scenagrowth.fr/contact</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/contact"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/contact"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/contact"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/insights/uae-brand-french-retail-meeting</loc>
+    <loc>https://www.scenagrowth.fr/insights/marque-emirienne-premier-rendez-vous-acheteur-france</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/uae-brand-french-retail-meeting"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/marque-emirienne-premier-rendez-vous-acheteur-france"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/uae-brand-french-retail-meeting"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <image:image><image:loc>https://www.scenagrowth.com/static/assets/roofs-2.jpg</image:loc><image:title>What a UAE brand should understand before its first French retail meeting</image:title></image:image>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/insights/dubai-company-setup-free-zone-or-mainland</loc>
+    <loc>https://www.scenagrowth.fr/insights/creer-societe-dubai-free-zone-ou-mainland</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/dubai-company-setup-free-zone-or-mainland"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/creer-societe-dubai-free-zone-ou-mainland"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/dubai-company-setup-free-zone-or-mainland"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <image:image><image:loc>https://www.scenagrowth.com/static/assets/uae-facade.jpg</image:loc><image:title>Dubai company setup: free zone or mainland?</image:title></image:image>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/insights/test-uae-market-ecommerce</loc>
+    <loc>https://www.scenagrowth.fr/insights/tester-marche-emirats-e-commerce</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/test-uae-market-ecommerce"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/tester-marche-emirats-e-commerce"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/test-uae-market-ecommerce"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <image:image><image:loc>https://www.scenagrowth.com/static/assets/dunes-2.jpg</image:loc><image:title>Test the UAE market before you invest: the e-commerce model</image:title></image:image>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/insights/product-to-shelf-france-distribution-map</loc>
+    <loc>https://www.scenagrowth.fr/insights/du-produit-au-rayon-distribution-en-france</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/product-to-shelf-france-distribution-map"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/du-produit-au-rayon-distribution-en-france"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/product-to-shelf-france-distribution-map"/>
     <lastmod>2026-10-04</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <image:image><image:loc>https://www.scenagrowth.com/static/assets/paris-roofs.jpg</image:loc><image:title>From product to shelf in France: the distribution map</image:title></image:image>
   </url>
+
   <url>
-    <loc>https://www.scenagrowth.com/real-estate</loc>
+    <loc>https://www.scenagrowth.fr/real-estate</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/real-estate"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/real-estate"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/real-estate"/>
     <lastmod>2026-10-09</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 </urlset>

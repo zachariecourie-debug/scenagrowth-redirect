@@ -51,7 +51,7 @@
     }
     // Same-page hash on another route (e.g. "/#work" while on "/")
     const homeHash = href.startsWith('/#') ? href.slice(1) : href.startsWith('/fr#') ? href.slice(3) : null;
-    if (homeHash && (location.pathname === '/' || location.pathname === '/fr')) {
+    if (homeHash && location.pathname === '/') {
       const t = $(homeHash); if (!t) return;
       e.preventDefault(); closeMenu();
       const y = t.getBoundingClientRect().top + scrollY;
@@ -233,7 +233,7 @@
   let moved = 0;
   if (car) {
     car.innerHTML = eps.map((e, i) => `
-    <a class="ep" role="listitem" href="${FRJS ? '/fr/contact' : '/contact'}" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
+    <a class="ep" role="listitem" href="/contact" data-i="${i}" data-cursor="${FRJS ? 'Proposer' : 'Propose'}" aria-label="${FRJS ? 'Proposer un invit\u00e9 pour le th\u00e8me' : 'Propose a guest for the theme'} ${FRJS && e.fr ? e.fr : e.t}">
       <div class="ph ${e.tone}">${e.clip ? `<video class="ep-clip" muted loop playsinline preload="none" poster="${e.clip}.jpg" aria-hidden="true"><source src="${e.clip}.mp4" type="video/mp4"></video>` : `<img src="${ASSETS + e.img}" alt="" loading="lazy" decoding="async" draggable="false">`}
         <div class="ep-over">
           <div class="ep-top"><span class="flag">${e.a} <b>↔</b> ${e.b}</span><span class="mono">${FRJS ? 'Saison 01' : 'Season 01'}</span></div>
