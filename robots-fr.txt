@@ -1,4 +1,4 @@
-# Scena Growth — https://www.scenagrowth.com (English)
+# Scena Growth — https://www.scenagrowth.fr (français) — served as /robots.txt on scenagrowth.fr
 User-agent: *
 Allow: /
 Disallow: /api/
@@ -24,4 +24,4 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-Sitemap: https://www.scenagrowth.com/sitemap.xml
+Sitemap: https://www.scenagrowth.fr/sitemap.xml

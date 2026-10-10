@@ -10,17 +10,35 @@ ErrorDocument 404 /404.html
 
 RewriteEngine On
 
-# scenagrowth.com (with or without www) → scenagrowth.fr, keeping the path, one hop.
-RewriteCond %{HTTP_HOST} ^(www\.)?scenagrowth\.com$ [NC]
-RewriteRule ^ https://www.scenagrowth.fr%{REQUEST_URI} [R=301,L]
+# Two domains, one folder: English on www.scenagrowth.com, French on www.scenagrowth.fr
+# (the French files live in /fr and are served at the root of scenagrowth.fr).
 
 # Bare domains → www (permanent), keeping the path.
-RewriteCond %{HTTP_HOST} ^(scenagrowth\.fr|carrosserielb\.fr)$ [NC]
+RewriteCond %{HTTP_HOST} ^(scenagrowth\.fr|scenagrowth\.com|carrosserielb\.fr)$ [NC]
 RewriteRule ^ https://www.%1%{REQUEST_URI} [R=301,L]
 
 # HTTP → HTTPS.
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+# .com: French pages belong to scenagrowth.fr (one hop, /fr prefix dropped).
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
+RewriteRule ^fr(?:/(.*))?$ https://www.scenagrowth.fr/$1 [R=301,L]
+
+# .fr: old /fr/... addresses → same page without /fr (direct requests only, not internal rewrites).
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteCond %{THE_REQUEST} \s/+fr(?:/([^\s?]*?))?/?(?:index\.html)?[\s?]
+RewriteRule ^ https://www.scenagrowth.fr/%1 [R=301,L]
+
+# .fr: English-only addresses (articles with English slugs) → scenagrowth.com.
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteRule ^(insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting))/?$ https://www.scenagrowth.com/$1 [R=301,L]
+
+# .fr: robots and sitemap of the French site.
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteRule ^robots\.txt$ robots-fr.txt [L]
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteRule ^sitemap\.xml$ sitemap-fr.xml [L]
 
 # Never serve repository or internal files.
 RewriteRule (^|/)\.git(/|$) - [R=404,L]
@@ -28,7 +46,7 @@ RewriteRule ^README\.md$ - [R=404,L]
 
 # /market-entry merged into /market-access (same search intent), 2026-10.
 RewriteRule ^market-entry/?$ https://%{HTTP_HOST}/market-access [R=301,L]
-RewriteRule ^fr/market-entry/?$ https://%{HTTP_HOST}/fr/market-access [R=301,L]
+RewriteRule ^fr/market-entry/?$ https://www.scenagrowth.fr/market-access [R=301,L]
 
 # Contact form endpoint.
 RewriteRule ^api/contact/?$ api/contact.php [L]
@@ -40,6 +58,14 @@ RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L]
 # Trailing slash → no trailing slash (permanent), except the home page.
 RewriteCond %{REQUEST_URI} !^/$
 RewriteRule ^(.+)/$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# .fr: serve the French files (/fr/...) at the root of scenagrowth.fr — internal rewrite.
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteRule ^$ fr/index.html [L]
+RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
+RewriteCond %{REQUEST_URI} !^/(fr|static|api|wa)(/|$)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.+)$ fr/$1 [L]
 
 # Clean URLs: /about → /about/index.html
 RewriteCond %{REQUEST_FILENAME} -d
