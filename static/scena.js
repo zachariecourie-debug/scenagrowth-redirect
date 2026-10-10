@@ -35,6 +35,8 @@
     wipe.classList.remove('run'); void wipe.offsetWidth; wipe.classList.add('run');
     setTimeout(cb, 460);
   };
+  // Top tab bar: open the matching Explore tab, then the data-go handler scrolls to #explore.
+  $$('a[data-tab]').forEach(a => a.addEventListener('click', () => { const t = document.getElementById(a.dataset.tab); if (t) t.click(); }));
   $$('a[data-go]').forEach(a => a.addEventListener('click', e => {
     const href = a.getAttribute('href') || '';
     const wasMenu = document.body.classList.contains('menu-open');

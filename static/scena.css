@@ -1427,3 +1427,10 @@ html:not(.js) .curtain{display:none}
 .foot-partners li b{font-weight:600;color:var(--ivory)}
 .foot-partners li span{color:var(--stone);font-size:14px}
 @media (max-width:900px){.foot-partners{grid-template-columns:1fr}.explore-tabs .ctabs button{padding:12px 12px}}
+
+/* ---------- v15: tab bar under the hero, opening the Explore tabs at the bottom ---------- */
+.quicktabs{padding:24px 0 8px}
+.quicktabs .ctabs{list-style:none;margin:0;padding:0}
+.quicktabs a{display:block;padding:16px 20px;font-family:var(--f-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--stone);border-bottom:2px solid transparent;transition:color .3s,border-color .3s}
+.quicktabs a:hover,.quicktabs a:focus-visible{color:var(--ivory);border-color:var(--sun)}
+@media (max-width:900px){.quicktabs a{padding:12px 12px}}
