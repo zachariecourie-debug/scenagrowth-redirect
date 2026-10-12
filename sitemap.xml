@@ -194,4 +194,31 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.scenagrowth.com/insights/beauty-retail-margins-france</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/beauty-retail-margins-france"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/marges-retail-beaute-france"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/beauty-retail-margins-france"/>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.scenagrowth.com/insights/fragrance-sampling-scent-discovery</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/fragrance-sampling-scent-discovery"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/echantillonnage-experience-olfactive"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/fragrance-sampling-scent-discovery"/>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.scenagrowth.com/insights/progressive-market-entry</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/progressive-market-entry"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/entree-progressive-nouveau-marche"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/progressive-market-entry"/>
+    <lastmod>2026-10-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

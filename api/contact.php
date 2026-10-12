@@ -81,6 +81,11 @@ $page    = oneLine(clean(isset($data['page']) ? $data['page'] : '', 200));
 $channel = $get('channel', 100);
 $category = $get('category', 100);
 $partnership = $get('partnership', 100);
+$channels = $get('channels', 300);
+$regStage = $get('regStage', 100);
+$budget = $get('budget', 100);
+$priority90 = $get('priority90', 300);
+$newsletter = $get('newsletter', 10) !== '' ? 'oui' : 'non';
 
 if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     reply(422, array('ok' => false, 'error' => 'Missing or invalid fields'));
@@ -103,6 +108,11 @@ $body = "Nouvelle demande depuis le site scenagrowth.fr\n\n"
       . ($channel !== '' ? "Canal de vente : $channel\n" : '')
       . ($category !== '' ? "Catégorie : $category\n" : '')
       . ($partnership !== '' ? "Partenariat recherché : $partnership\n" : '')
+      . ($channels !== '' ? "Canaux de vente actuels : $channels\n" : '')
+      . ($regStage !== '' ? "Préparation réglementaire : $regStage\n" : '')
+      . ($budget !== '' ? "Budget indicatif : $budget\n" : '')
+      . ($priority90 !== '' ? "Priorité 90 jours : $priority90\n" : '')
+      . "Newsletter : $newsletter\n"
       . "Page : $page\n\n"
       . "Message :\n$message\n";
 
