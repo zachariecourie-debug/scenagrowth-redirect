@@ -78,6 +78,9 @@ $target  = oneLine(clean(isset($data['targetMarket']) ? $data['targetMarket'] : 
 $types   = oneLine(clean(isset($data['type']) ? $data['type'] : '', 500));
 $message = clean(isset($data['message']) ? $data['message'] : '', 5000);
 $page    = oneLine(clean(isset($data['page']) ? $data['page'] : '', 200));
+$channel = $get('channel', 100);
+$category = $get('category', 100);
+$partnership = $get('partnership', 100);
 
 if ($name === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
     reply(422, array('ok' => false, 'error' => 'Missing or invalid fields'));
@@ -97,6 +100,9 @@ $body = "Nouvelle demande depuis le site scenagrowth.fr\n\n"
       . ($have !== '' ? "Immobilier — éléments disponibles : $have\n" : '')
       . ($types !== '' ? "Besoins : $types\n" : '')
       . ($country !== '' ? "Pays : $country\n" : '')
+      . ($channel !== '' ? "Canal de vente : $channel\n" : '')
+      . ($category !== '' ? "Catégorie : $category\n" : '')
+      . ($partnership !== '' ? "Partenariat recherché : $partnership\n" : '')
       . "Page : $page\n\n"
       . "Message :\n$message\n";
 
