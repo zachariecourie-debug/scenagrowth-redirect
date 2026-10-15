@@ -221,4 +221,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.scenagrowth.com/insights/find-fragrance-distributor-france</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights/find-fragrance-distributor-france"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights/trouver-distributeur-parfum-france"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/insights/find-fragrance-distributor-france"/>
+    <lastmod>2026-10-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>
