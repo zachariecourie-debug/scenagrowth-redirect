@@ -32,11 +32,11 @@ RewriteRule ^ https://www.scenagrowth.fr/%1 [R=301,L]
 
 # .fr: English-only addresses (articles with English slugs) → scenagrowth.com.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
-RewriteRule ^(insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france)/?$ https://www.scenagrowth.com/$1 [R=301,L]
+RewriteRule ^(insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france|insights/montaji-registration-dubai-what-to-prepare|insights/find-distributor-uae|insights/create-your-own-perfume-brand|insights/cpnp-notification-responsible-person)/?$ https://www.scenagrowth.com/$1 [R=301,L]
 
 # .com: French-only slugs → scenagrowth.fr.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
-RewriteRule ^(lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
+RewriteRule ^(lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/enregistrement-montaji-dubai-preparer|insights/trouver-distributeur-emirats|insights/creer-sa-marque-de-parfum|insights/notification-cpnp-personne-responsable|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
 
 # .fr: robots and sitemap of the French site.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
