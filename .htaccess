@@ -21,6 +21,11 @@ RewriteRule ^ https://www.%1%{REQUEST_URI} [R=301,L]
 RewriteCond %{SERVER_PORT} 80
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
+# Instagram link (/ig on either domain): free guide in the visitor's language (temporary, language-dependent).
+RewriteCond %{HTTP:Accept-Language} ^fr [NC]
+RewriteRule ^ig/?$ https://www.scenagrowth.fr/guide-prix-parfum-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_prix_dubai [R=302,L,NE]
+RewriteRule ^ig/?$ https://www.scenagrowth.com/guide-perfume-price-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_price_dubai [R=302,L,NE]
+
 # .com: French pages belong to scenagrowth.fr (one hop, /fr prefix dropped).
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
 RewriteRule ^fr(?:/(.*))?$ https://www.scenagrowth.fr/$1 [R=301,L]
@@ -32,7 +37,7 @@ RewriteRule ^ https://www.scenagrowth.fr/%1 [R=301,L]
 
 # .fr: English-only addresses (articles with English slugs) → scenagrowth.com.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
-RewriteRule ^(insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france|insights/montaji-registration-dubai-what-to-prepare|insights/find-distributor-uae|insights/create-your-own-perfume-brand|insights/cpnp-notification-responsible-person)/?$ https://www.scenagrowth.com/$1 [R=301,L]
+RewriteRule ^(guide-perfume-price-dubai|insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france|insights/montaji-registration-dubai-what-to-prepare|insights/find-distributor-uae|insights/create-your-own-perfume-brand|insights/cpnp-notification-responsible-person)/?$ https://www.scenagrowth.com/$1 [R=301,L]
 
 # .com: French-only slugs → scenagrowth.fr.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]

@@ -34,8 +34,10 @@ if (clean(isset($data['website']) ? $data['website'] : '', 200) !== '') {
 }
 
 $get = function ($k, $max) use ($data) { return clean(isset($data[$k]) ? $data[$k] : '', $max); };
-$markets = array('Émirats', 'France', 'Les deux');
+$lang = $get('lang', 2) === 'en' ? 'en' : 'fr';
+$markets = array('Émirats', 'France', 'Les deux', 'UAE', 'Both');
 $d = array(
+    'lang' => $lang,
     'firstName' => $get('firstName', 80),
     'email' => $get('email', 200),
     'brand' => $get('brand', 120),
@@ -48,18 +50,18 @@ if ($d['firstName'] === '' || !filter_var($d['email'], FILTER_VALIDATE_EMAIL)) {
 
 // 1. The guide itself: if this fails, the visitor must know.
 $m = guide_messages($d);
-if (!guide_mail($d['email'], $m['guide']['subject'], $m['guide']['text'], 'zacharie.courie@scenagrowth.fr',
-                GUIDE_PDF, 'Scena-Guide-prix-parfum-Dubai.pdf')) {
+$pdf = $lang === 'en' ? array(GUIDE_PDF_EN, 'Scena-Guide-Perfume-Price-Dubai.pdf') : array(GUIDE_PDF, 'Scena-Guide-prix-parfum-Dubai.pdf');
+if (!guide_mail($d['email'], $m['guide']['subject'], $m['guide']['text'], 'zacharie.courie@scenagrowth.fr', $pdf[0], $pdf[1])) {
     reply(502, array('ok' => false, 'error' => 'Send failed'));
 }
 
 // 2–4 are best effort: a failure never reaches the visitor.
 if (!guide_stopped($d['email'])) {
     @guide_queue_add($d);
-    if ($d['newsletter']) @guide_newsletter_add($d['email'], $d['firstName'], $d['brand'], $d['market'], 'Guide prix parfum Dubaï');
+    if ($d['newsletter']) @guide_newsletter_add($d['email'], $d['firstName'], $d['brand'], $d['market'], $lang === 'en' ? 'Guide perfume price Dubai (EN)' : 'Guide prix parfum Dubaï');
 }
 
-$notify = "Guide téléchargé : « Le vrai prix d’un parfum français à Dubaï »\n\n"
+$notify = "Guide téléchargé : " . ($lang === 'en' ? "version anglaise « The real price of a French perfume in Dubai »" : "« Le vrai prix d’un parfum français à Dubaï »") . "\n\n"
         . "Prénom : {$d['firstName']}\n"
         . "E-mail : {$d['email']}\n"
         . ($d['brand'] !== '' ? "Marque : {$d['brand']}\n" : '')

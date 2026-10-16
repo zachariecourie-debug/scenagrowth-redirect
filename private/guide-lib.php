@@ -12,6 +12,7 @@ define('GUIDE_DIR', __DIR__);
 define('GUIDE_FROM', 'Zacharie Courie <zacharie.courie@scenagrowth.fr>');
 define('GUIDE_NOTIFY', 'contact@scenagrowth.fr');
 define('GUIDE_PDF', GUIDE_DIR . '/Scena-Guide-prix-parfum-Dubai.pdf');
+define('GUIDE_PDF_EN', GUIDE_DIR . '/Scena-Guide-Perfume-Price-Dubai.pdf');
 define('GUIDE_SITE', 'https://www.scenagrowth.fr');
 
 function guide_secret() {
@@ -24,10 +25,11 @@ function guide_secret() {
     return $s;
 }
 
-function guide_stop_link($email) {
+function guide_stop_link($email, $lang = 'fr') {
     $email = strtolower($email);
     $t = substr(hash_hmac('sha256', $email, guide_secret()), 0, 32);
-    return GUIDE_SITE . '/api/stop?e=' . rawurlencode($email) . '&t=' . $t;
+    $site = $lang === 'en' ? 'https://www.scenagrowth.com' : GUIDE_SITE;
+    return $site . '/api/stop?e=' . rawurlencode($email) . '&t=' . $t . ($lang === 'en' ? '&l=en' : '');
 }
 
 function guide_stop_valid($email, $t) {
@@ -88,6 +90,7 @@ function guide_mail($to, $subject, $text, $replyTo, $pdfPath = null, $pdfName = 
 }
 
 function guide_messages($d) {
+    if (isset($d['lang']) && $d['lang'] === 'en') return guide_messages_en($d);
     $brand = $d['brand'] !== '' ? $d['brand'] : 'votre marque';
     $sign = "Zacharie Courie, CEO\nScena Growth · Paris · Dubaï · Abu Dhabi\nscenagrowth.fr";
     $stop = "\n\n—\nPour ne plus recevoir ces emails : " . guide_stop_link($d['email']);
@@ -117,9 +120,39 @@ function guide_messages($d) {
     );
 }
 
+function guide_messages_en($d) {
+    $brand = $d['brand'] !== '' ? $d['brand'] : 'your brand';
+    $sign = "Zacharie Courie, CEO\nScena Growth · Paris · Dubai · Abu Dhabi\nscenagrowth.com";
+    $stop = "\n\n—\nTo stop receiving these emails: " . guide_stop_link($d['email'], 'en');
+    return array(
+        'guide' => array(
+            'subject' => 'Your guide: the real price of a French perfume in Dubai',
+            'text' => "Hello {$d['firstName']},\n\nHere is the guide, attached.\n\n"
+                . "A tip for reading it: start from the last line. The target shelf price drives everything else.\n\n"
+                . "If you would like the same calculation for $brand, just reply to this email with an ex-works price and your target market.\n\n"
+                . $sign
+        ),
+        'j3' => array(
+            'subject' => 'The mistake almost every brand makes',
+            'text' => "Hello {$d['firstName']},\n\n"
+                . "Most brands set their Dubai price from the factory, then discover that distributor and retailer margins multiply. The result: a range too expensive for the shelf they want.\n\n"
+                . "The reverse method comes down to three questions: which retail price, which channel, which formats?\n\n"
+                . "We walk a brand through it in a first conversation. Reply to this email, or write to us at https://www.scenagrowth.com/contact.\n\n"
+                . $sign . $stop
+        ),
+        'j7' => array(
+            'subject' => "A question about $brand",
+            'text' => "Hello {$d['firstName']},\n\n"
+                . "Just one question: where is your UAE project, between “we're looking” and “we already have a distributor”?\n\n"
+                . "Your answer, even one word, helps me send you what is actually useful. And if now is not the time, tell me: I won't follow up again.\n\n"
+                . "Zacharie" . $stop
+        )
+    );
+}
+
 function guide_queue_add($d) {
     $now = time();
-    $entry = array('email' => $d['email'], 'firstName' => $d['firstName'], 'brand' => $d['brand'],
+    $entry = array('email' => $d['email'], 'firstName' => $d['firstName'], 'brand' => $d['brand'], 'lang' => isset($d['lang']) ? $d['lang'] : 'fr',
                    'j3' => $now + 3 * 86400, 'j7' => $now + 7 * 86400, 'sent' => array());
     file_put_contents(GUIDE_DIR . '/guide-queue.jsonl', json_encode($entry, JSON_UNESCAPED_UNICODE) . "\n", FILE_APPEND | LOCK_EX);
 }
@@ -137,7 +170,8 @@ function guide_queue_run() {
         $e = json_decode($line, true);
         if (!is_array($e) || empty($e['email'])) continue;
         if (guide_stopped($e['email'])) continue;
-        $m = guide_messages(array('email' => $e['email'], 'firstName' => $e['firstName'], 'brand' => $e['brand']));
+        $m = guide_messages(array('email' => $e['email'], 'firstName' => $e['firstName'], 'brand' => $e['brand'],
+                                  'lang' => isset($e['lang']) ? $e['lang'] : 'fr'));
         foreach (array('j3', 'j7') as $k) {
             if (!in_array($k, $e['sent'], true) && $now >= $e[$k]) {
                 if (guide_mail($e['email'], $m[$k]['subject'], $m[$k]['text'], 'zacharie.courie@scenagrowth.fr')) {

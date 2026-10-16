@@ -15,13 +15,16 @@
     if (!ok) return;
     var data = {
       firstName: f.firstName.value, email: f.email.value, brand: f.brand.value, market: f.market.value,
-      newsletter: f.newsletter.checked, website: f.website.value, page: location.pathname
+      newsletter: f.newsletter.checked, website: f.website.value, page: location.pathname,
+      lang: document.documentElement.lang === 'en' ? 'en' : 'fr'
     };
     btn.disabled = true; err.hidden = true;
     fetch('/api/guide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'failed'); }); })
       .then(function () { f.classList.add('sent'); setTimeout(function () { recv.classList.add('show'); }, 400); })
-      .catch(function () { err.hidden = false; err.textContent = 'L’envoi n’a pas abouti. Écrivez-nous à contact@scenagrowth.fr et nous vous envoyons le guide.'; })
+      .catch(function () { err.hidden = false; err.textContent = document.documentElement.lang === 'en'
+          ? 'Sending failed. Write to contact@scenagrowth.fr and we will send you the guide.'
+          : 'L’envoi n’a pas abouti. Écrivez-nous à contact@scenagrowth.fr et nous vous envoyons le guide.'; })
       .then(function () { btn.disabled = false; });
   });
 })();
