@@ -153,4 +153,10 @@ if (!mail('contact@scenagrowth.fr', $subject, $body, $headers)) {
     reply(500, array('ok' => false, 'error' => 'Mail not sent'));
 }
 
+// Newsletter opt-in: same list as the guide form (private/newsletter.csv).
+if ($newsletter === 'oui') {
+    require_once __DIR__ . '/../private/guide-lib.php';
+    if (!guide_stopped($email)) @guide_newsletter_add($email, $name, $company, $target, 'Formulaire de contact');
+}
+
 reply(200, array('ok' => true));

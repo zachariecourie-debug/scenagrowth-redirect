@@ -36,7 +36,7 @@ RewriteRule ^(insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-s
 
 # .com: French-only slugs → scenagrowth.fr.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
-RewriteRule ^(lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/enregistrement-montaji-dubai-preparer|insights/trouver-distributeur-emirats|insights/creer-sa-marque-de-parfum|insights/notification-cpnp-personne-responsable|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
+RewriteRule ^(guide-prix-parfum-dubai|lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/enregistrement-montaji-dubai-preparer|insights/trouver-distributeur-emirats|insights/creer-sa-marque-de-parfum|insights/notification-cpnp-personne-responsable|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
 
 # .fr: robots and sitemap of the French site.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
@@ -47,6 +47,7 @@ RewriteRule ^sitemap\.xml$ sitemap-fr.xml [L]
 # Never serve repository or internal files.
 RewriteRule (^|/)\.git(/|$) - [R=404,L]
 RewriteRule ^README\.md$ - [R=404,L]
+RewriteRule ^private(/|$) - [R=404,L]
 
 # /market-entry merged into /market-access (same search intent), 2026-10.
 RewriteRule ^market-entry/?$ https://%{HTTP_HOST}/market-access [R=301,L]
@@ -54,6 +55,10 @@ RewriteRule ^fr/market-entry/?$ https://www.scenagrowth.fr/market-access [R=301,
 
 # Contact form endpoint.
 RewriteRule ^api/contact/?$ api/contact.php [L]
+
+# Free guide: download form and opt-out link of its follow-up emails.
+RewriteRule ^api/guide/?$ api/guide.php [L]
+RewriteRule ^api/stop/?$ api/stop.php [L]
 
 # Direct requests for .../index.html → clean URL (one hop; internal rewrites are not affected).
 RewriteCond %{THE_REQUEST} \s/+([^\s?]*?)/?index\.html[\s?] [NC]
