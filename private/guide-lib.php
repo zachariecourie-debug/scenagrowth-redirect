@@ -89,7 +89,7 @@ function guide_mail($to, $subject, $text, $replyTo, $pdfPath = null, $pdfName = 
 
 function guide_messages($d) {
     $brand = $d['brand'] !== '' ? $d['brand'] : 'votre marque';
-    $sign = "Zacharie Courie\nScena Growth, Paris · Dubaï\nscenagrowth.fr";
+    $sign = "Zacharie Courie, CEO\nScena Growth · Paris · Dubaï · Abu Dhabi\nscenagrowth.fr";
     $stop = "\n\n—\nPour ne plus recevoir ces emails : " . guide_stop_link($d['email']);
     return array(
         'guide' => array(
