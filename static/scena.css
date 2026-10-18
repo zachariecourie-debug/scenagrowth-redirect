@@ -1462,3 +1462,24 @@ html:not(.js) .curtain{display:none}
 .ex-txt{display:grid;gap:10px;align-content:start}
 .ex-txt h3{font-size:clamp(20px,1.7vw,26px);line-height:1.1}
 @media (max-width:760px){.ex-grid{grid-template-columns:1fr;gap:26px}.ex-card{grid-template-columns:96px 1fr;gap:16px;align-items:start}.ex-card img{box-shadow:0 8px 20px rgba(18,17,16,.18)}.ex-txt h3{font-size:19px}}
+
+/* ---------- 2026-10-18 pass 5: static hero, mobile overlaps, touch targets ---------- */
+/* Hero: one screen, no scroll lock; the promise is the H1 itself. */
+.hero,.hero{height:100vh;height:100svh}
+.hero-copy{grid-template-columns:minmax(0,1fr)}
+.hero h1 .l1{display:block;white-space:nowrap}
+.hero h1 .l1.hl{color:var(--sun)}
+.hero h1,html[lang="fr"] .hero h1{font-size:clamp(44px,7.4vw,148px)}
+.hero h1 .l2{font-size:.34em;line-height:1.15;margin-top:.35em;max-width:30ch}
+@media (max-width:900px){
+  .hero,.hero{height:100svh}
+  .hero h1,html[lang="fr"] .hero h1{font-size:clamp(38px,11.5vw,76px)}
+  .hero h1 .l1{white-space:normal}
+  .hero h1 .l2{font-size:.46em}
+  /* the bottom bar is the WhatsApp call to action: no second floating bubble on top of it */
+  .wa{display:none}
+  /* touch targets ≥ 40px */
+  .foot ul a,.foot-bot nav a,.crumbs a,.pillar-links a,.foot-social a{display:inline-flex;align-items:center;min-height:40px}
+  .momentum .kw-field{display:none}
+  .link-u.mono{display:inline-flex;align-items:center;min-height:40px}
+}

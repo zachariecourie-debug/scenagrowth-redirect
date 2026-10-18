@@ -76,6 +76,9 @@ RewriteRule ^api/stop/?$ api/stop.php [L]
 # Sample deliverables form (sends the PDFs by email).
 RewriteRule ^api/exemples/?$ api/exemples.php [L]
 
+# First-party audience measurement (no cookie; weekly report by email).
+RewriteRule ^api/m/?$ api/m.php [L]
+
 # Direct requests for .../index.html → clean URL (one hop; internal rewrites are not affected).
 RewriteCond %{THE_REQUEST} \s/+([^\s?]*?)/?index\.html[\s?] [NC]
 RewriteRule ^ https://%{HTTP_HOST}/%1 [R=301,L]

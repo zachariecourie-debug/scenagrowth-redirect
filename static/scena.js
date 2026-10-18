@@ -12,6 +12,20 @@
   const ASSETS = '/static/assets/';
   const FRJS = document.documentElement.lang === 'fr';
 
+  /* ---------- audience: first-party, no cookie, no identifier (→ /api/m) ---------- */
+  const track = e => {
+    if (/^(localhost|127\.|\[::1\])/.test(location.hostname)) return;
+    try {
+      const q = new URLSearchParams(location.search), ref = document.referrer ? new URL(document.referrer).hostname : '';
+      const b = JSON.stringify({ p: location.pathname, e, s: (q.get('utm_source') || ref).slice(0, 80), d: isMobile() ? 'm' : 'd', l: FRJS ? 'fr' : 'en' });
+      if (navigator.sendBeacon) navigator.sendBeacon('/api/m', new Blob([b], { type: 'application/json' }));
+      else fetch('/api/m', { method: 'POST', body: b, keepalive: true });
+    } catch (x) {}
+  };
+  window.scenaTrack = track;
+  track('view');
+  document.addEventListener('click', e => { if (e.target.closest && e.target.closest('a[href^="/wa"]')) track('whatsapp'); }, true);
+
   /* ---------- intro curtain (once per session) ---------- */
   const curtain = $('#curtain');
   if (curtain) {
@@ -497,7 +511,7 @@
         const r = await fetch('/api/contact', { method: 'POST', body: fd });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || !j.ok) throw new Error(j.error || 'Request failed');
-        cf.classList.add('sent'); setTimeout(() => { recv.removeAttribute('aria-hidden'); recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400);
+        cf.classList.add('sent'); track('form_contact'); setTimeout(() => { recv.removeAttribute('aria-hidden'); recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400);
       } catch (err) {
         if (cfErr) { cfErr.hidden = false; cfErr.textContent = document.documentElement.lang === 'fr' ? 'Une erreur est survenue — écrivez-nous directement à contact@scenagrowth.fr.' : 'Something went wrong — please email contact@scenagrowth.fr directly.'; }
       } finally { submitBtn.disabled = false; }
@@ -624,7 +638,7 @@
 
     // hero
     if (hr && hr.bottom > 0) {
-      const p = clamp(-hr.top / (heroH - vh));
+      const p = clamp(-hr.top / Math.max(heroH - vh, heroH * .8));
       setRot(Math.min(3, Math.floor(p * 4.001)));
       split = lerp(split, splitT, .06);
       const merge = RM ? 0 : p;

@@ -3,8 +3,13 @@
 <!-- Static replacement for Genspark's server-side /wa redirect, so the WhatsApp buttons keep working on any host. -->
 <script>
 (function () {
-  var fr = /scenagrowth\.fr(\/|$)/.test(document.referrer) || /\/fr(\/|$)/.test(document.referrer) || /^fr\b/i.test(navigator.language || '');
-  var text = fr
+  // ?rdv=fr|en: the "Book a call" buttons (booking message, language of the page); otherwise the chat window.
+  var rdv = (location.search.match(/[?&]rdv=(fr|en)/) || [])[1];
+  var fr = rdv ? rdv === 'fr' : /scenagrowth\.fr(\/|$)/.test(document.referrer) || /\/fr(\/|$)/.test(document.referrer) || /^fr\b/i.test(navigator.language || '');
+  var text = rdv
+    ? (fr ? "Bonjour Scena Growth, je souhaite réserver un échange de 20 à 30 minutes au sujet de ma marque."
+          : "Hello Scena Growth, I would like to book a 20–30 minute call about my brand.")
+    : fr
     ? "Bonjour Scena Growth, je souhaite échanger sur un projet entre la France et les Émirats."
     : "Hello Scena Growth, I'd like to discuss a project between France and the UAE.";
   location.replace('https://wa.me/33651366670?text=' + encodeURIComponent(text));
