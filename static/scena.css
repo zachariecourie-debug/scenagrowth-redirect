@@ -81,7 +81,7 @@ input,select,textarea{font:inherit;color:inherit}
 .js .reveal-img.in{clip-path:inset(0 0 0 0)}
 .js .reveal-img.in img{transform:scale(1)}
 /* reveal: text lines */
-.rl{display:block;overflow:hidden;padding-bottom:.04em;margin-bottom:-.04em}
+.rl{display:block;overflow:visible;clip-path:inset(-.3em -.1em 0 -.1em);padding-bottom:.04em;margin-bottom:-.04em}
 .rl > span{display:block}
 .js .rl > span{transform:translateY(105%);transition:transform 1.15s var(--ease)}
 .js .in .rl > span, .js .rl.in > span{transform:none}
