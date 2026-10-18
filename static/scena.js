@@ -174,8 +174,8 @@
 
   /* ---------- SERVICES ---------- */
   const rows = $$('.svc-row'), bgs = $$('#buildBg .ph'), bigNum = $('#bigNum'), tagsEl = $('#svcTags');
-  const svcTagsEn = [["Positioning", "Communication", "Creators", "Press", "Pop-ups"], ["Points of sale", "Buyer meetings", "Orders", "Restocks"], ["Written scope", "Monthly follow-up", "No stock purchase", "Nothing hidden"]];
-  const svcTagsFr = [["Positionnement", "Communication", "Créateurs", "Presse", "Pop-ups"], ["Points de vente", "Rendez-vous acheteurs", "Commandes", "Réassorts"], ["Périmètre écrit", "Suivi mensuel", "Pas d’achat de stock", "Rien de caché"]];
+  const svcTagsEn = [["Content", "Creators", "Press", "Pop-ups"], ["Points of sale", "Buyers", "Orders", "Restocks"], ["Your price", "Your stock", "Your registrations", "Monthly report"]];
+  const svcTagsFr = [["Contenus", "Créateurs", "Presse", "Pop-ups"], ["Points de vente", "Acheteurs", "Commandes", "Réassorts"], ["Votre prix", "Votre stock", "Vos enregistrements", "Point mensuel"]];
   const svcTags = FRJS ? svcTagsFr : svcTagsEn;
   const setSvc = i => {
     rows.forEach((r, k) => { r.classList.toggle('on', k === i); $('button', r).setAttribute('aria-expanded', String(k === i)); });

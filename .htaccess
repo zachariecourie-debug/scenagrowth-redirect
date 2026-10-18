@@ -26,6 +26,10 @@ RewriteCond %{HTTP:Accept-Language} ^fr [NC]
 RewriteRule ^ig/?$ https://www.scenagrowth.fr/guide-prix-parfum-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_prix_dubai [R=302,L,NE]
 RewriteRule ^ig/?$ https://www.scenagrowth.com/guide-perfume-price-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_price_dubai [R=302,L,NE]
 
+# Brands & partners page removed (2026-10-18): one hop to About, on the right domain.
+RewriteRule ^brands-partners/?$ https://www.scenagrowth.com/about [R=301,L]
+RewriteRule ^(?:fr/)?marques-partenaires/?$ https://www.scenagrowth.fr/about [R=301,L]
+
 # .com: French pages belong to scenagrowth.fr (one hop, /fr prefix dropped).
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
 RewriteRule ^fr(?:/(.*))?$ https://www.scenagrowth.fr/$1 [R=301,L]

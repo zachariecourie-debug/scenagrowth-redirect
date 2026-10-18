@@ -1455,3 +1455,10 @@ html:not(.js) .curtain{display:none}
 /* form never wider than the screen on mobile */
 @media (max-width:900px){.contact-grid{grid-template-columns:minmax(0,1fr)}.cf{grid-template-columns:minmax(0,1fr)}.cf .fld,.cf input,.cf select,.cf textarea,.cf small{min-width:0;max-width:100%}}
 @media (min-width:901px){.hero-meta>.hero-ctas:first-child{grid-column:2}}
+.ex-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px}
+.ex-card{display:grid;gap:14px;align-content:start;color:inherit;text-decoration:none}
+.ex-card img{width:100%;height:auto;aspect-ratio:648/917;object-fit:cover;box-shadow:0 18px 40px rgba(18,17,16,.18);transition:transform .6s var(--ease)}
+.ex-card:hover img{transform:translateY(-4px)}
+.ex-txt{display:grid;gap:10px;align-content:start}
+.ex-txt h3{font-size:clamp(20px,1.7vw,26px);line-height:1.1}
+@media (max-width:760px){.ex-grid{grid-template-columns:1fr;gap:26px}.ex-card{grid-template-columns:96px 1fr;gap:16px;align-items:start}.ex-card img{box-shadow:0 8px 20px rgba(18,17,16,.18)}.ex-txt h3{font-size:19px}}
