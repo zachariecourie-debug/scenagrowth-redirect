@@ -7,6 +7,7 @@
 //   newsletter.csv      people who ticked the newsletter box (guide and contact forms)
 //   stop.txt            addresses that asked to stop (follow-ups and newsletter)
 //   secret.txt          random key that signs the opt-out links
+//   exemples-leads.csv  everyone who asked for the sample deliverables (api/exemples.php)
 
 define('GUIDE_DIR', __DIR__);
 define('GUIDE_FROM', 'Zacharie Courie <zacharie.courie@scenagrowth.fr>');

@@ -278,4 +278,13 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.scenagrowth.com/examples</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/examples"/>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/exemples"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/examples"/>
+    <lastmod>2026-10-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

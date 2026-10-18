@@ -26,6 +26,10 @@ RewriteCond %{HTTP:Accept-Language} ^fr [NC]
 RewriteRule ^ig/?$ https://www.scenagrowth.fr/guide-prix-parfum-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_prix_dubai [R=302,L,NE]
 RewriteRule ^ig/?$ https://www.scenagrowth.com/guide-perfume-price-dubai?utm_source=instagram&utm_medium=social&utm_campaign=guide_price_dubai [R=302,L,NE]
 
+# Sample PDFs are now sent by email (2026-10-18): old public links → the examples page, on the right domain.
+RewriteRule ^static/exemples/(?:sample-diagnostic-uae-france)\.pdf$ https://www.scenagrowth.com/examples [R=301,L]
+RewriteRule ^static/exemples/ https://www.scenagrowth.fr/exemples [R=301,L]
+
 # Brands & partners page removed (2026-10-18): one hop to About, on the right domain.
 RewriteRule ^brands-partners/?$ https://www.scenagrowth.com/about [R=301,L]
 RewriteRule ^(?:fr/)?marques-partenaires/?$ https://www.scenagrowth.fr/about [R=301,L]
@@ -41,11 +45,11 @@ RewriteRule ^ https://www.scenagrowth.fr/%1 [R=301,L]
 
 # .fr: English-only addresses (articles with English slugs) → scenagrowth.com.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
-RewriteRule ^(guide-perfume-price-dubai|glossary|insights/sell-in-uae-without-a-company|insights/sell-gulf-perfume-brand-france|insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france|insights/montaji-registration-dubai-what-to-prepare|insights/find-distributor-uae|insights/create-your-own-perfume-brand|insights/cpnp-notification-responsible-person)/?$ https://www.scenagrowth.com/$1 [R=301,L]
+RewriteRule ^(guide-perfume-price-dubai|glossary|examples|insights/sell-in-uae-without-a-company|insights/sell-gulf-perfume-brand-france|insights/(?:dubai-company-setup-free-zone-or-mainland|product-to-shelf-france-distribution-map|test-uae-market-ecommerce|uae-brand-french-retail-meeting)|beauty-brand-launch-france|brands-partners|insights/beauty-retail-margins-france|insights/fragrance-sampling-scent-discovery|insights/progressive-market-entry|insights/find-fragrance-distributor-france|insights/montaji-registration-dubai-what-to-prepare|insights/find-distributor-uae|insights/create-your-own-perfume-brand|insights/cpnp-notification-responsible-person)/?$ https://www.scenagrowth.com/$1 [R=301,L]
 
 # .com: French-only slugs → scenagrowth.fr.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.com$ [NC]
-RewriteRule ^(guide-prix-parfum-dubai|glossaire|insights/vendre-aux-emirats-sans-societe|insights/vendre-parfum-marque-golfe-france|lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/enregistrement-montaji-dubai-preparer|insights/trouver-distributeur-emirats|insights/creer-sa-marque-de-parfum|insights/notification-cpnp-personne-responsable|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
+RewriteRule ^(guide-prix-parfum-dubai|glossaire|exemples|insights/vendre-aux-emirats-sans-societe|insights/vendre-parfum-marque-golfe-france|lancement-marque-beaute-france|marques-partenaires|insights/marges-retail-beaute-france|insights/echantillonnage-experience-olfactive|insights/entree-progressive-nouveau-marche|insights/trouver-distributeur-parfum-france|insights/enregistrement-montaji-dubai-preparer|insights/trouver-distributeur-emirats|insights/creer-sa-marque-de-parfum|insights/notification-cpnp-personne-responsable|insights/(?:creer-societe-dubai-free-zone-ou-mainland|tester-marche-emirats-e-commerce|marque-emirienne-premier-rendez-vous-acheteur-france|du-produit-au-rayon-distribution-en-france))/?$ https://www.scenagrowth.fr/$1 [R=301,L]
 
 # .fr: robots and sitemap of the French site.
 RewriteCond %{HTTP_HOST} ^www\.scenagrowth\.fr$ [NC]
@@ -68,6 +72,9 @@ RewriteRule ^api/contact/?$ api/contact.php [L]
 # Free guide: download form and opt-out link of its follow-up emails.
 RewriteRule ^api/guide/?$ api/guide.php [L]
 RewriteRule ^api/stop/?$ api/stop.php [L]
+
+# Sample deliverables form (sends the PDFs by email).
+RewriteRule ^api/exemples/?$ api/exemples.php [L]
 
 # Direct requests for .../index.html → clean URL (one hop; internal rewrites are not affected).
 RewriteCond %{THE_REQUEST} \s/+([^\s?]*?)/?index\.html[\s?] [NC]
