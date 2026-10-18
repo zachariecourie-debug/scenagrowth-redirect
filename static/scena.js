@@ -23,6 +23,7 @@
   /* ---------- nav / menu ---------- */
   const nav = $('#nav'), burger = $('#burger'), mcta = $('#mcta');
   const closeMenu = () => { document.body.classList.remove('menu-open'); document.body.style.overflow = ''; burger && burger.setAttribute('aria-expanded', 'false'); };
+  addEventListener('keydown', e => { if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { closeMenu(); burger && burger.focus(); } });
   burger && burger.addEventListener('click', () => {
     const o = document.body.classList.toggle('menu-open');
     burger.setAttribute('aria-expanded', String(o)); document.body.style.overflow = o ? 'hidden' : '';
@@ -173,8 +174,8 @@
 
   /* ---------- SERVICES ---------- */
   const rows = $$('.svc-row'), bgs = $$('#buildBg .ph'), bigNum = $('#bigNum'), tagsEl = $('#svcTags');
-  const svcTagsEn = [["Market assessment", "Entry roadmap", "Target mapping", "Introductions"], ["Distributor map", "Retail mapping", "Channel strategy", "Product dossiers"], ["Fulfillment needs", "Provider shortlist", "Launch stock", "Coordination"]];
-  const svcTagsFr = [["Évaluation marché", "Feuille de route", "Cartographie des cibles", "Introductions"], ["Carte distributeurs", "Carte retail", "Stratégie de canal", "Dossiers produit"], ["Besoins logistiques", "Short-list prestataires", "Stock de lancement", "Coordination"]];
+  const svcTagsEn = [["Positioning", "Communication", "Creators", "Press", "Pop-ups"], ["Points of sale", "Buyer meetings", "Orders", "Restocks"], ["Written scope", "Monthly follow-up", "No stock purchase", "Nothing hidden"]];
+  const svcTagsFr = [["Positionnement", "Communication", "Créateurs", "Presse", "Pop-ups"], ["Points de vente", "Rendez-vous acheteurs", "Commandes", "Réassorts"], ["Périmètre écrit", "Suivi mensuel", "Pas d’achat de stock", "Rien de caché"]];
   const svcTags = FRJS ? svcTagsFr : svcTagsEn;
   const setSvc = i => {
     rows.forEach((r, k) => { r.classList.toggle('on', k === i); $('button', r).setAttribute('aria-expanded', String(k === i)); });
@@ -495,7 +496,7 @@
         const r = await fetch('/api/contact', { method: 'POST', body: fd });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || !j.ok) throw new Error(j.error || 'Request failed');
-        cf.classList.add('sent'); setTimeout(() => recv.classList.add('show'), 400);
+        cf.classList.add('sent'); setTimeout(() => { recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400);
       } catch (err) {
         if (cfErr) { cfErr.hidden = false; cfErr.textContent = document.documentElement.lang === 'fr' ? 'Une erreur est survenue — écrivez-nous directement à contact@scenagrowth.fr.' : 'Something went wrong — please email contact@scenagrowth.fr directly.'; }
       } finally { submitBtn.disabled = false; }

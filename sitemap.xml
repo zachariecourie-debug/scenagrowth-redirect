@@ -65,15 +65,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.scenagrowth.com/podcast</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/podcast"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/podcast"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.scenagrowth.com/podcast"/>
-    <lastmod>2026-10-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://www.scenagrowth.com/insights</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://www.scenagrowth.com/insights"/>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.scenagrowth.fr/insights"/>
