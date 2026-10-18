@@ -476,6 +476,7 @@
   const cf = $('#cf'), recv = $('#received'), recvT = $('#recvT'), cfErr = $('#cfErr');
   if (cf && recv) {
     recvT.innerHTML = (document.documentElement.lang === 'fr' ? 'REÇU.' : 'RECEIVED.').split('').map((c, i) => `<span style="transition-delay:${i * 45}ms">${c}</span>`).join('');
+    recv.setAttribute('aria-hidden', 'true'); // the confirmation is invisible until sent: keep it out of screen readers too
     const submitBtn = $('button[type=submit]', cf);
     cf.addEventListener('submit', async e => {
       e.preventDefault(); let ok = true;
@@ -496,7 +497,7 @@
         const r = await fetch('/api/contact', { method: 'POST', body: fd });
         const j = await r.json().catch(() => ({}));
         if (!r.ok || !j.ok) throw new Error(j.error || 'Request failed');
-        cf.classList.add('sent'); setTimeout(() => { recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400);
+        cf.classList.add('sent'); setTimeout(() => { recv.removeAttribute('aria-hidden'); recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400);
       } catch (err) {
         if (cfErr) { cfErr.hidden = false; cfErr.textContent = document.documentElement.lang === 'fr' ? 'Une erreur est survenue — écrivez-nous directement à contact@scenagrowth.fr.' : 'Something went wrong — please email contact@scenagrowth.fr directly.'; }
       } finally { submitBtn.disabled = false; }
@@ -508,7 +509,7 @@
     try { const k = new URLSearchParams(location.search).get('objective'); if (k) setObj(k); } catch (e) {}
     $$('[data-objective]').forEach(a => a.addEventListener('click', () => setObj(a.dataset.objective)));
     const again = $('#again');
-    again && (again.onclick = () => { recv.classList.remove('show'); cf.reset(); setTimeout(() => cf.classList.remove('sent'), 300); });
+    again && (again.onclick = () => { recv.classList.remove('show'); recv.setAttribute('aria-hidden', 'true'); cf.reset(); setTimeout(() => cf.classList.remove('sent'), 300); });
   }
 
   /* ---------- Real Estate: plan → property frame sequence ---------- */

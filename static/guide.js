@@ -2,6 +2,8 @@
 (function () {
   var f = document.getElementById('gf'), recv = document.getElementById('gReceived'), err = document.getElementById('gfErr');
   if (!f || !recv) return;
+  // the confirmation is invisible until sent: keep it out of screen readers, then announce it and move focus to it
+  recv.setAttribute('aria-hidden', 'true'); recv.setAttribute('role', 'status'); recv.setAttribute('tabindex', '-1');
   var btn = f.querySelector('button[type=submit]');
   f.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -21,7 +23,7 @@
     btn.disabled = true; err.hidden = true;
     fetch('/api/guide', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'failed'); }); })
-      .then(function () { f.classList.add('sent'); setTimeout(function () { recv.classList.add('show'); }, 400); })
+      .then(function () { f.classList.add('sent'); setTimeout(function () { recv.removeAttribute('aria-hidden'); recv.classList.add('show'); try { recv.focus(); } catch (e) {} }, 400); })
       .catch(function () { err.hidden = false; err.textContent = document.documentElement.lang === 'en'
           ? 'Sending failed. Write to contact@scenagrowth.fr and we will send you the guide.'
           : 'L’envoi n’a pas abouti. Écrivez-nous à contact@scenagrowth.fr et nous vous envoyons le guide.'; })
